@@ -1,0 +1,15 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "declaration": true,
+        "lib": [
+            "dom",
+            "es6",
+            "dom.iterable",
+            "scripthost",
+            "es2017.object"
+        ]
+    }
+}
