@@ -6,13 +6,13 @@ export function DnnHttpProviderFactory(backend: XHRBackend, defaultOptions: Requ
     return new SxcHttp(backend, defaultOptions, sxc);
 }
 
-export let SxcHttpProvider = {
+export const SxcHttpProvider = {
     provide: Http,
     useFactory: DnnHttpProviderFactory,
     deps: [XHRBackend, RequestOptions, SxcAngular]
 };
 
-export let DnnHttpProvider = {
+export const DnnHttpProvider = {
     provide: Http,
     useFactory: DnnHttpProviderFactory,
     deps: [XHRBackend, RequestOptions, DnnAngular]
