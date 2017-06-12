@@ -47,13 +47,13 @@
   "_spec": "@2sic.com/sxc-angular@1.0.3",
   "_where": "C:\\Projects\\New folder",
   "author": "",
-  "dependencies": {},
-  "description": "",
-  "devDependencies": {
+  "dependencies": {
     "@angular/core": "^4.1.3",
     "@angular/http": "^4.1.3",
     "rxjs": "^5.4.0"
   },
+  "description": "",
+  "devDependencies": {},
   "directories": {},
   "dist": {
     "shasum": "fae4a3b33304545c0c5ddf9fb1131cdc91086cfc",
@@ -81,5 +81,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2sic/sxc-angular"
+  },
+  "typings": "./sxc-angular.d.ts",
   "version": "1.0.3"
 }

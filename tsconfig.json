@@ -4,6 +4,8 @@
         "experimentalDecorators": true,
         "module": "commonjs",
         "declaration": true,
+        "sourceMap": true,
+        "outDir": "lib",
         "lib": [
             "dom",
             "es6",
@@ -11,5 +13,12 @@
             "scripthost",
             "es2017.object"
         ]
-    }
+    },
+    "resolution": "typings",
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

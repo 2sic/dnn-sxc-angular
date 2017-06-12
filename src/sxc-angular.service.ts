@@ -23,7 +23,7 @@ export class SxcAngular {
     private contextSubject: ReplaySubject<AppContext> = new ReplaySubject<AppContext>();
     private sxcSubject: ReplaySubject<SxcInstance> = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
-    
+
     constructor(
         @Optional() private devSettings: DnnDevSettings
     ) {
@@ -63,7 +63,7 @@ export class SxcAngular {
             this.cbIdSubject.next(0);
             return;
         }
-
+        
         let sxc = this.sxcInstance = <SxcInstance>this.globSxc(htmlNode.nativeElement);
         if (sxc == undefined || sxc == null) throw 'couldn\'t get sxc instance - reason unknown';
 
