@@ -5,10 +5,10 @@ export declare function DnnHttpProviderFactory(backend: XHRBackend, defaultOptio
 export declare let SxcHttpProvider: {
     provide: typeof Http;
     useFactory: (backend: XHRBackend, defaultOptions: RequestOptions, sxc: SxcAngular) => SxcHttp;
-    deps: (typeof SxcAngular | typeof XHRBackend | typeof RequestOptions)[];
+    deps: (typeof XHRBackend | typeof RequestOptions | typeof SxcAngular)[];
 };
 export declare let DnnHttpProvider: {
     provide: typeof Http;
     useFactory: (backend: XHRBackend, defaultOptions: RequestOptions, sxc: SxcAngular) => SxcHttp;
-    deps: (typeof DnnAngular | typeof XHRBackend | typeof RequestOptions)[];
+    deps: (typeof XHRBackend | typeof RequestOptions | typeof DnnAngular)[];
 };
