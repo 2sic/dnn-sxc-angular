@@ -3,9 +3,11 @@
     "compilerOptions": {
         "experimentalDecorators": true,
         "module": "commonjs",
+        "moduleResolution": "node",
         "declaration": true,
-        "sourceMap": true,
-        "outDir": "lib",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "outDir": "dist",
         "lib": [
             "dom",
             "es6",
