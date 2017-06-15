@@ -40,4 +40,3 @@ ContentResource = __decorate([
     core_1.Injectable()
 ], ContentResource);
 exports.ContentResource = ContentResource;
-//# sourceMappingURL=sxc-content.service.js.map

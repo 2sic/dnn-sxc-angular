@@ -61,4 +61,3 @@ SxcHttp = __decorate([
     core_1.Injectable()
 ], SxcHttp);
 exports.SxcHttp = SxcHttp;
-//# sourceMappingURL=sxc-http.js.map

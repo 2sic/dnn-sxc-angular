@@ -27,4 +27,3 @@ var DnnAppComponent = (function (_super) {
     return DnnAppComponent;
 }(SxcAppComponent));
 exports.DnnAppComponent = DnnAppComponent;
-//# sourceMappingURL=sxc-app.component.js.map

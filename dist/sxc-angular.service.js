@@ -113,4 +113,3 @@ var DnnAngular = (function (_super) {
 }(SxcAngular));
 exports.DnnAngular = DnnAngular;
 ;
-//# sourceMappingURL=sxc-angular.service.js.map

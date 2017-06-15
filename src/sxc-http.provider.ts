@@ -1,19 +1,17 @@
+import { SxcHttpProviderFactory } from './sxc-http-provider.factory';
 import { SxcHttp } from './sxc-http';
 import { Http, XHRBackend, RequestOptions } from "@angular/http";
 import { SxcAngular, DnnAngular } from "./sxc-angular.service";
+import { Provider } from "@angular/core";
 
-export function DnnHttpProviderFactory(backend: XHRBackend, defaultOptions: RequestOptions, sxc: SxcAngular) {
-    return new SxcHttp(backend, defaultOptions, sxc);
-}
-
-export const SxcHttpProvider = {
+export const SxcHttpProvider: Provider = {
     provide: Http,
-    useFactory: DnnHttpProviderFactory,
+    useFactory: SxcHttpProviderFactory,
     deps: [XHRBackend, RequestOptions, SxcAngular]
 };
 
-export const DnnHttpProvider = {
+export const DnnHttpProvider: Provider = {
     provide: Http,
-    useFactory: DnnHttpProviderFactory,
+    useFactory: SxcHttpProviderFactory,
     deps: [XHRBackend, RequestOptions, DnnAngular]
 };

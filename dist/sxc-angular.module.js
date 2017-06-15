@@ -22,4 +22,3 @@ SxcAngularModule = __decorate([
     })
 ], SxcAngularModule);
 exports.SxcAngularModule = SxcAngularModule;
-//# sourceMappingURL=sxc-angular.module.js.map
