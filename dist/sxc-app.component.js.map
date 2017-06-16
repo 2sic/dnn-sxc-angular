@@ -1,1 +1,0 @@
-{"version":3,"file":"sxc-app.component.js","sourceRoot":"","sources":["../src/sxc-app.component.ts"],"names":[],"mappings":"AAAA,sDAAsD;AACtD,8FAA8F;;;;;;;;;;;;;AAK9F;IACE,yBAAY,OAAmB,EAAE,KAAiB;QAChD,KAAK,CAAC,aAAa,CAAC,OAAO,CAAC,CAAC;IAC/B,CAAC;IACH,sBAAC;AAAD,CAAC,AAJD,IAIC;AAJY,0CAAe;AAM5B;IAAqC,mCAAe;IAApD;;IAAsD,CAAC;IAAD,sBAAC;AAAD,CAAC,AAAvD,CAAqC,eAAe,GAAG;AAA1C,0CAAe"}

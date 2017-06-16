@@ -5,9 +5,12 @@ import { ElementRef } from '@angular/core';
 import { SxcAngular } from "./sxc-angular.service";
 
 export class SxcAppComponent {
-  constructor(element: ElementRef, sxcNg: SxcAngular) {
+  constructor(
+    element: ElementRef,
+    sxcNg: SxcAngular
+  ) {
     sxcNg.autoConfigure(element);
   }
 }
 
-export class DnnAppComponent extends SxcAppComponent {}
+export class DnnAppComponent extends SxcAppComponent { }
