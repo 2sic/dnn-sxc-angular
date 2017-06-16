@@ -4,7 +4,7 @@
       {
         "raw": "@2sic.com/dnn-sxc-angular@1.0.0",
         "scope": "@2sic.com",
-        "escapedName": "@2sic.com%2fsxc-angular",
+        "escapedName": "@2sic.com%2fdnn-sxc-angular",
         "name": "@2sic.com/dnn-sxc-angular",
         "rawSpec": "1.0.3",
         "spec": "1.0.3",
@@ -70,12 +70,13 @@
   "readme": "ERROR: No README data found!",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:main": "tsc main.ts -d"
+    "build:main": "tsc index.ts -d",
+    "copy:dist": "cpx \"dist/**/*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular/dist\""
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/2sic/dnn-sxc-angular"
   },
-  "typings": "main.d.ts",
+  "typings": "index.d.ts",
   "version": "1.0.0"
 }

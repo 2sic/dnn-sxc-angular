@@ -13,3 +13,5 @@ exports.SxcAppComponent = sxc_app_component_1.SxcAppComponent;
 var sxc_http_provider_1 = require("./sxc-http.provider");
 exports.DnnHttpProvider = sxc_http_provider_1.DnnHttpProvider;
 exports.SxcHttpProvider = sxc_http_provider_1.SxcHttpProvider;
+var sxc_http_provider_factory_1 = require("./sxc-http-provider.factory");
+exports.SxcHttpProviderFactory = sxc_http_provider_factory_1.SxcHttpProviderFactory;
