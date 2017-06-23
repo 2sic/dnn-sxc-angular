@@ -7,8 +7,8 @@ export class ContentResourceFactory {
   constructor(
     private http: Http
   ) { }
-  
-  resource<T>(typeName: string) {
+
+  resource<T = any>(typeName: string) {
     return new ContentResource<T>(this.http, typeName);
   }
 }
@@ -19,7 +19,7 @@ export class ContentResource<T> {
     private http: Http,
     private typeName: string
   ) { }
-  
+
   get(id: number = null): Observable<T> {
     let url = `app/auto/content/${this.typeName}`;
     if (id) url += `/${id}`;
