@@ -8,7 +8,7 @@ export class ContentResourceFactory {
     private http: Http
   ) { }
 
-  resource<T = any>(typeName: string) {
+  resource<T>(typeName: string) {
     return new ContentResource<T>(this.http, typeName);
   }
 }
