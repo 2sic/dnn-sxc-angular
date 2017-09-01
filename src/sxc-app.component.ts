@@ -1,8 +1,7 @@
+import {SxcAngular} from './sxc-angular.service';
 // This is a base class for all apps which run in DNN.
 // It ensures that the rest of the parts depending on DNN parameters are correctly initialized
-
 import { ElementRef } from '@angular/core';
-import { SxcAngular } from "./sxc-angular.service";
 
 export class SxcAppComponent {
   constructor(
@@ -13,4 +12,4 @@ export class SxcAppComponent {
   }
 }
 
-export class DnnAppComponent extends SxcAppComponent { }
+// export class DnnAppComponent extends SxcAppComponent { }

@@ -10,8 +10,8 @@ export const SxcHttpProvider: Provider = {
     deps: [XHRBackend, RequestOptions, SxcAngular]
 };
 
-export const DnnHttpProvider: Provider = {
-    provide: Http,
-    useFactory: SxcHttpProviderFactory,
-    deps: [XHRBackend, RequestOptions, DnnAngular]
-};
+// export const DnnHttpProvider: Provider = {
+//     provide: Http,
+//     useFactory: SxcHttpProviderFactory,
+//     deps: [XHRBackend, RequestOptions, DnnAngular]
+// };

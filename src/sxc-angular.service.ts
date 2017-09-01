@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { ElementRef, Optional, Injectable } from "@angular/core";
 import { ReplaySubject, Observable, Subscription } from "rxjs";
 import { AppContext } from "./app-context";
@@ -63,7 +64,7 @@ export class SxcAngular {
             this.cbIdSubject.next(0);
             return;
         }
-        
+
         let sxc = this.sxcInstance = <SxcInstance>this.globSxc(htmlNode.nativeElement);
         if (sxc == undefined || sxc == null) throw 'couldn\'t get sxc instance - reason unknown';
 
@@ -96,11 +97,13 @@ export class SxcAngular {
             return;
         }
 
-        if (!this.devSettings.ignoreMissingServicesFramework) throw `DNN Services Framework is missing, and it\'s not allowed according to devSettings. Either set devSettings to ignore this, or ensure it\'s there`;
+        if (!this.devSettings.ignoreMissingServicesFramework) {
+            throw `DNN Services Framework is missing, and it\'s not allowed according to devSettings. Either set devSettings to ignore this, or ensure it\'s there`;
+        }
 
         this.tidSubject.next(this.devSettings.tabId);
         this.afTokenSubject.next(this.devSettings.antiForgeryToken);
     }
 }
 
-export class DnnAngular extends SxcAngular { };
+// export class DnnAngular extends SxcAngular { };

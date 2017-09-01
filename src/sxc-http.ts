@@ -16,7 +16,7 @@ export class SxcHttp extends Http {
   }
 
   request(urlOrRequest: string | Request, options: RequestOptionsArgs = new RequestOptions()): Observable<Response> {
-    let subject = new Subject<Response>();
+    const subject = new Subject<Response>();
     this.sxcNg.context.take(1)
       .subscribe(res => {
         if (typeof urlOrRequest === 'string') {
