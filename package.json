@@ -6,8 +6,8 @@
         "scope": "@2sic.com",
         "escapedName": "@2sic.com%2fdnn-sxc-angular",
         "name": "@2sic.com/dnn-sxc-angular",
-        "rawSpec": "1.0.3",
-        "spec": "1.0.3",
+        "rawSpec": "1.0.4",
+        "spec": "1.0.4",
         "type": "version"
       },
       "C:\\Projects\\New folder"
@@ -78,5 +78,5 @@
     "url": "https://github.com/2sic/dnn-sxc-angular"
   },
   "typings": "index.d.ts",
-  "version": "1.0.1"
+  "version": "1.0.4"
 }
