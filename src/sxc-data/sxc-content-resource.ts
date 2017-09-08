@@ -1,10 +1,11 @@
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 export class ContentResource<T> {
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private typeName: string
   ) { }
 
@@ -13,8 +14,7 @@ export class ContentResource<T> {
     if (id) {
       url += `/${id}`;
     }
-    const headers = new Headers();
-    return this.http.get(url, { headers })
-      .map(response => <T[]>response.json());
+    const headers = new HttpHeaders();
+    return this.http.get<T[]>(url, { headers });
   }
 }

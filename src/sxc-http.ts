@@ -1,45 +1,94 @@
+import { Http } from '@angular/http';
+import { HttpEvent, HttpParams, HttpHeaders, HttpHandler, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, ConnectionBackend, RequestOptions, RequestOptionsArgs, Request, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { ReplaySubject } from "rxjs/ReplaySubject";
-import { Subject } from "rxjs/Subject";
-import { SxcAngular } from "./sxc-angular.service";
-import { AppContext } from "./app-context";
+import { SxcAngular } from '@2sic.com/dnn-sxc-angular';
+import { HttpRequest } from '@angular/common/http';
+import { HttpObserve } from '@angular/common/http/src/client';
+import { Subject } from 'rxjs/Subject';
+import { AppContext } from '@2sic.com/dnn-sxc-angular/src/app-context';
+
 @Injectable()
-export class SxcHttp extends Http {
+export class SxcHttp extends HttpClient {
   constructor(
-    backend: ConnectionBackend,
-    defaultOptions: RequestOptions,
+    handler: HttpHandler,
     private sxcNg: SxcAngular
   ) {
-    super(backend, defaultOptions);
+    super(handler);
   }
 
-  request(urlOrRequest: string | Request, options: RequestOptionsArgs = new RequestOptions()): Observable<Response> {
-    const subject = new Subject<Response>();
-    this.sxcNg.context.take(1)
-      .subscribe(res => {
-        if (typeof urlOrRequest === 'string') {
-          urlOrRequest = res.sxc.resolveServiceUrl(<string>urlOrRequest);
-          this.configure(options, res);
-        } else {
-          urlOrRequest.url = res.sxc.resolveServiceUrl(<string>urlOrRequest.url);
-          this.configure(<Request>urlOrRequest, res);
-        }
+  /**
+   * Perform a HTTP Request
+   * @param first request
+   * @param url request url
+   * @param options request options
+   */
+  request(first: string | HttpRequest<any>, url?: string, options: {
+    body?: any,
+    headers?: HttpHeaders,
+    observe?: HttpObserve,
+    params?: HttpParams,
+    reportProgress?: boolean,
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text',
+    withCredentials?: boolean,
+  } = {}): Observable<any> {
+    const subject = new Subject<HttpEvent<any>>();
 
-        super.request(urlOrRequest)
+    console.log('request test', arguments);
+
+    // Subscribe to the 2sxc context.
+    this.sxcNg.context.take(1)
+      .subscribe(appContext => {
+        let req: HttpRequest<any>;
+
+        // Firstly, check whether the primary argument is an instance of `HttpRequest`.
+        if (first instanceof HttpRequest) {
+          req = first as HttpRequest<any>;
+
+          // Clone the request and update the url with 2sxc params.
+          req = req.clone({
+            url: appContext.sxc.resolveServiceUrl(req.url),
+          });
+        } else {
+          // url = url || appContext.sxc.resolveServiceUrl(<string>first)
+          // urlOrRequest = res.sxc.resolveServiceUrl(<string>first);
+
+          first = appContext.sxc.resolveServiceUrl(<string>first);
+          console.log(first, url);
+
+          // It's a string, so it represents a URL.
+          req = new HttpRequest(first, url !, options.body || null, {
+            headers: options.headers,
+            params: options.params,
+            reportProgress: options.reportProgress,
+
+            // By default, JSON is assumed to be returned for all calls.
+            responseType: options.responseType || 'json',
+            withCredentials: options.withCredentials,
+          });
+        }
+        this.appendHeaders(options, appContext);
+
+        super.request(req)
           .subscribe(res => subject.next(res));
       });
 
     return subject.asObservable();
   }
 
-  private configure(options: RequestOptionsArgs | Request, params: AppContext): RequestOptionsArgs {
-    if (!options.headers) options.headers = new Headers();
-    options.headers.append('ModuleId', params.moduleId.toString());
-    options.headers.append('TabId', params.tabId.toString());
-    options.headers.append('ContentBlockId', params.contentBlockId.toString());
-    options.headers.append('RequestVerificationToken', params.antiForgeryToken);
+  /**
+   * Add 2sxc headers to the request.
+   * @param options request options
+   * @param appContext 2sxc appContext
+   */
+  private appendHeaders(options: any, appContext: AppContext): any {
+    if (!options.headers) {
+      options.headers = new HttpHeaders();
+    }
+    options.headers.append('ModuleId', appContext.moduleId.toString());
+    options.headers.append('TabId', appContext.tabId.toString());
+    options.headers.append('ContentBlockId', appContext.contentBlockId.toString());
+    options.headers.append('RequestVerificationToken', appContext.antiForgeryToken);
     options.headers.append('X-Debugging-Hint', 'bootstrapped by Sxc4Angular');
     return options;
   }

@@ -1,9 +1,12 @@
-import { Http } from '@angular/http';
-import { ElementRef, Optional, Injectable } from "@angular/core";
-import { ReplaySubject, Observable, Subscription } from "rxjs";
-import { AppContext } from "./app-context";
-import { SxcInstance } from "./sxc-instance";
-import { DnnDevSettings } from "./dev/dnn-dev-settings";
+import { ElementRef, Optional, Injectable } from '@angular/core';
+import { AppContext } from './app-context';
+import { SxcInstance } from './sxc-instance';
+import { DnnDevSettings } from './dev/dnn-dev-settings';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/observable/timer';
+import 'rxjs/Rx';
 
 declare const window: any;
 
@@ -42,7 +45,9 @@ export class SxcAngular {
         }, devSettings);
 
         this.globSxc = <any>window.$2sxc;
-        if (this.globSxc == undefined && !devSettings.ignoreMissing$2sxc) throw 'window.$2sxc is null - you probably forgot to include the script before loading angular';
+        if (this.globSxc === undefined && !devSettings.ignoreMissing$2sxc) {
+            throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
+        }
 
         Observable.combineLatest(this.moduleId, this.tabId, this.contentBlockId, this.sxc, this.antiForgeryToken)
             .subscribe(res => this.contextSubject.next(<AppContext>{
@@ -54,19 +59,27 @@ export class SxcAngular {
             }));
     }
 
+    /**
+     * Configure 2sxc in the context of a HTMLNode.
+     * @param htmlNode the HTMLNode
+     */
     autoConfigure(htmlNode: ElementRef) {
 
-        // no global $2sxc found
+        // No global $2sxc found.
         if (!this.globSxc) {
-            if (!this.devSettings.ignoreMissing$2sxc) throw 'cannot autoConfigure - missing $2sxc';
+            if (!this.devSettings.ignoreMissing$2sxc) {
+                throw new Error('cannot autoConfigure - missing $2sxc');
+            }
             this.midSubject.next(this.devSettings.moduleId);
             this.tidSubject.next(this.devSettings.tabId);
             this.cbIdSubject.next(0);
             return;
         }
 
-        let sxc = this.sxcInstance = <SxcInstance>this.globSxc(htmlNode.nativeElement);
-        if (sxc == undefined || sxc == null) throw 'couldn\'t get sxc instance - reason unknown';
+        const sxc = this.sxcInstance = <SxcInstance>this.globSxc(htmlNode.nativeElement);
+        if (sxc === undefined || sxc === null) {
+            throw new Error('couldn\'t get sxc instance - reason unknown');
+        }
 
         // Update / publish moduleId.
         this.midSubject.next(sxc.id);
@@ -76,20 +89,23 @@ export class SxcAngular {
         // Check if DNN Services framework exists.
         if (window.$ && window.$.ServicesFramework) {
 
-            // Run timer till sf is ready, but max for a second
+            // Run timer till sf is ready, but max for a second.
             const timer = Observable.timer(0, 100)
                 .take(10)
                 .subscribe(x => {
 
                     // This must be accessed after a delay, as the SF is not ready yet.
-                    let sf = window.$.ServicesFramework(this.sxcInstance.id);
+                    const sf = window.$.ServicesFramework(this.sxcInstance.id);
 
-                    // check if sf is initialized
+                    // Check if sf is initialized.
                     if (sf.getAntiForgeryValue()) {
                         timer.unsubscribe();
 
-                        // must reset, as they are incorrectly initialized when accessed early
-                        if (window.dnn && window.dnn.vars && window.dnn.vars.length == 0) window.dnn.vars = null;
+                        // Must reset, as they are incorrectly initialized when accessed early.
+                        if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
+                            window.dnn.vars = null;
+                        }
+
                         this.tidSubject.next(sf.getTabId());
                         this.afTokenSubject.next(sf.getAntiForgeryValue());
                     }
@@ -98,7 +114,9 @@ export class SxcAngular {
         }
 
         if (!this.devSettings.ignoreMissingServicesFramework) {
-            throw `DNN Services Framework is missing, and it\'s not allowed according to devSettings. Either set devSettings to ignore this, or ensure it\'s there`;
+            throw new Error(`
+                DNN Services Framework is missing, and it\'s not allowed according to devSettings.
+                Either set devSettings to ignore this, or ensure it\'s there`);
         }
 
         this.tidSubject.next(this.devSettings.tabId);

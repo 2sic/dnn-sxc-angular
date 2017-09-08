@@ -1,9 +1,9 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { ContentResource } from './sxc-content-resource';
 
 export class SxcData {
   constructor(
-    private http: Http,
+    private http: HttpClient,
   ) { }
 
   content<T>(typeName: string): ContentResource<T> {
@@ -11,6 +11,6 @@ export class SxcData {
   }
 
   query<T>() {
-    throw 'Qery not implemented yet.';
+    throw new Error('Qery not implemented yet.');
   }
 }

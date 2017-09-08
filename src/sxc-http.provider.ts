@@ -1,14 +1,18 @@
-import { SxcHttpProviderFactory } from './sxc-http-provider.factory';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { RequestOptions, Http, XHRBackend } from '@angular/http';
 import { SxcHttp } from './sxc-http';
-import { Http, XHRBackend, RequestOptions } from "@angular/http";
-import { SxcAngular, DnnAngular } from "./sxc-angular.service";
-import { Provider } from "@angular/core";
+import { Provider } from '@angular/core';
+import { SxcAngular } from '@2sic.com/dnn-sxc-angular';
 
 export const SxcHttpProvider: Provider = {
-    provide: Http,
+    provide: HttpClient,
     useFactory: SxcHttpProviderFactory,
-    deps: [XHRBackend, RequestOptions, SxcAngular]
+    deps: [HttpHandler, SxcAngular]
 };
+
+export function SxcHttpProviderFactory(handler: HttpHandler, sxc: SxcAngular) {
+    return new SxcHttp(handler, sxc);
+}
 
 // export const DnnHttpProvider: Provider = {
 //     provide: Http,
