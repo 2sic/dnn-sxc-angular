@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SxcAngular, SxcDataProvider, SxcHttpProvider } from '@2sic.com/dnn-sxc-angular';
+import { Context, SxcDataProvider, HttpProvider } from '.';
 
 @NgModule({
-  imports: [
-  ],
-  declarations: [],
-  providers: [
-  ]
+  // imports: [  ],
+  // declarations: [],
+  // providers: [  ]
 })
 export class SxcAngularModule { }

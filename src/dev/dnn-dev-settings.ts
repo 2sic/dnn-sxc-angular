@@ -1,8 +1,9 @@
 // This lets you configure test-values during development
 
-import { AppContext } from "../app-context";
 
-export class DnnDevSettings implements AppContext {
+import { ContextInfo } from "../context-info";
+
+export class DnnDevSettings implements ContextInfo {
     ignoreMissing$2sxc = false;
     ignoreMissingServicesFramework  = false;
     forceUse: boolean = false;

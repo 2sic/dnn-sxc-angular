@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { SxcData } from '@2sic.com/dnn-sxc-angular/src/sxc-data/sxc-data';
+import { SxcData } from './sxc-data';
 import { Provider } from '@angular/core';
 
 export const SxcDataProvider: Provider = {

@@ -1,18 +1,18 @@
 import { ElementRef, Optional, Injectable } from '@angular/core';
-import { AppContext } from './app-context';
-import { SxcInstance } from './sxc-instance';
 import { DnnDevSettings } from './dev/dnn-dev-settings';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
+import { SxcInstance } from "./interfaces/sxc-instance";
+import { ContextInfo } from "./context-info";
 
 declare const window: any;
 
 @Injectable()
-export class SxcAngular {
-    context: Observable<AppContext>;
+export class Context {
+    complete: Observable<ContextInfo>;
     moduleId: Observable<number>;
     tabId: Observable<number>;
     contentBlockId: Observable<number>;
@@ -24,7 +24,7 @@ export class SxcAngular {
     private tidSubject: ReplaySubject<number> = new ReplaySubject<number>();
     private cbIdSubject: ReplaySubject<number> = new ReplaySubject<number>();
     private afTokenSubject: ReplaySubject<string> = new ReplaySubject<string>();
-    private contextSubject: ReplaySubject<AppContext> = new ReplaySubject<AppContext>();
+    private contextSubject: ReplaySubject<ContextInfo> = new ReplaySubject<ContextInfo>();
     private sxcSubject: ReplaySubject<SxcInstance> = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
 
@@ -36,7 +36,7 @@ export class SxcAngular {
         this.contentBlockId = this.cbIdSubject.asObservable();
         this.antiForgeryToken = this.afTokenSubject.asObservable();
         this.sxc = this.sxcSubject.asObservable();
-        this.context = this.contextSubject.asObservable();
+        this.complete = this.contextSubject.asObservable();
 
         // Dev settings with minimal ignore settings.
         devSettings = Object.assign({}, {
@@ -50,7 +50,7 @@ export class SxcAngular {
         }
 
         Observable.combineLatest(this.moduleId, this.tabId, this.contentBlockId, this.sxc, this.antiForgeryToken)
-            .subscribe(res => this.contextSubject.next(<AppContext>{
+            .subscribe(res => this.contextSubject.next(<ContextInfo>{
                 moduleId: res[0],
                 tabId: res[1],
                 contentBlockId: res[2],
@@ -68,7 +68,7 @@ export class SxcAngular {
         // No global $2sxc found.
         if (!this.globSxc) {
             if (!this.devSettings.ignoreMissing$2sxc) {
-                throw new Error('cannot autoConfigure - missing $2sxc');
+                throw new Error('cannot autoConfigure - missing $2sxc which helps auto-detect the module - make sure you include 2sxc.min.js');
             }
             this.midSubject.next(this.devSettings.moduleId);
             this.tidSubject.next(this.devSettings.tabId);
@@ -101,13 +101,14 @@ export class SxcAngular {
                     if (sf.getAntiForgeryValue()) {
                         timer.unsubscribe();
 
+                        this.tidSubject.next(sf.getTabId());
+                        this.afTokenSubject.next(sf.getAntiForgeryValue());
+                    }
+                    else{
                         // Must reset, as they are incorrectly initialized when accessed early.
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
                             window.dnn.vars = null;
                         }
-
-                        this.tidSubject.next(sf.getTabId());
-                        this.afTokenSubject.next(sf.getAntiForgeryValue());
                     }
                 });
             return;

@@ -2,17 +2,19 @@ import { Http } from '@angular/http';
 import { HttpEvent, HttpParams, HttpHeaders, HttpHandler, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { SxcAngular } from '@2sic.com/dnn-sxc-angular';
+import { Context } from '..';
 import { HttpRequest } from '@angular/common/http';
 import { HttpObserve } from '@angular/common/http/src/client';
 import { Subject } from 'rxjs/Subject';
-import { AppContext } from '@2sic.com/dnn-sxc-angular/src/app-context';
+import { ContextInfo } from "../context-info";
+
+// todo: review if we should change the concept to an interceptor instead of an inject
 
 @Injectable()
-export class SxcHttp extends HttpClient {
+export class SxcHttpClient extends HttpClient {
   constructor(
     handler: HttpHandler,
-    private sxcNg: SxcAngular
+    private sxcNg: Context
   ) {
     super(handler);
   }
@@ -32,12 +34,12 @@ export class SxcHttp extends HttpClient {
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text',
     withCredentials?: boolean,
   } = {}): Observable<any> {
-    const subject = new Subject<HttpEvent<any>>();
+    const result = new Subject<HttpEvent<any>>();
 
     console.log('request test', arguments);
 
     // Subscribe to the 2sxc context.
-    this.sxcNg.context.take(1)
+    this.sxcNg.complete.take(1)
       .subscribe(appContext => {
         let req: HttpRequest<any>;
 
@@ -63,17 +65,17 @@ export class SxcHttp extends HttpClient {
             reportProgress: options.reportProgress,
 
             // By default, JSON is assumed to be returned for all calls.
-            responseType: options.responseType || 'json',
+            responseType: options.responseType, // 2017-09-09 2dm, this is the default on HttpClient // || 'json',
             withCredentials: options.withCredentials,
           });
         }
         this.appendHeaders(options, appContext);
 
         super.request(req)
-          .subscribe(res => subject.next(res));
+          .subscribe(res => result.next(res));
       });
 
-    return subject.asObservable();
+    return result.asObservable();
   }
 
   /**
@@ -81,7 +83,7 @@ export class SxcHttp extends HttpClient {
    * @param options request options
    * @param appContext 2sxc appContext
    */
-  private appendHeaders(options: any, appContext: AppContext): any {
+  private appendHeaders(options: any, appContext: ContextInfo): any {
     if (!options.headers) {
       options.headers = new HttpHeaders();
     }
