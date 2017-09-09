@@ -1,11 +1,11 @@
 import { HttpParams, HttpHeaders, HttpHandler, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-import { Context } from '..';
 import { HttpRequest } from '@angular/common/http';
 import { HttpObserve } from '@angular/common/http/src/client';
+import { Context } from "../context.service";
 export declare class SxcHttpClient extends HttpClient {
-    private sxcNg;
-    constructor(handler: HttpHandler, sxcNg: Context);
+    private context;
+    constructor(handler: HttpHandler, context: Context);
     /**
      * Perform a HTTP Request
      * @param first request

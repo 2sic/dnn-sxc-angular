@@ -23,9 +23,9 @@ var Subject_1 = require("rxjs/Subject");
 // todo: review if we should change the concept to an interceptor instead of an inject
 var SxcHttpClient = /** @class */ (function (_super) {
     __extends(SxcHttpClient, _super);
-    function SxcHttpClient(handler, sxcNg) {
+    function SxcHttpClient(handler, context) {
         var _this = _super.call(this, handler) || this;
-        _this.sxcNg = sxcNg;
+        _this.context = context;
         return _this;
     }
     /**
@@ -40,7 +40,7 @@ var SxcHttpClient = /** @class */ (function (_super) {
         var result = new Subject_1.Subject();
         console.log('request test', arguments);
         // Subscribe to the 2sxc context.
-        this.sxcNg.complete.take(1)
+        this.context.complete.take(1)
             .subscribe(function (appContext) {
             var req;
             // Firstly, check whether the primary argument is an instance of `HttpRequest`.

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { ContentResource } from './sxc-content-resource';
+import { Content } from './content';
+import { Query } from "./query";
 export declare class SxcData {
     private http;
     constructor(http: HttpClient);
-    content<T>(typeName: string): ContentResource<T>;
-    query<T>(): void;
+    content<T>(contentType: string): Content<T>;
+    query<T>(name: string): Query<T>;
 }

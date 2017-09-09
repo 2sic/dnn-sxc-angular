@@ -1,5 +1,5 @@
-export { SxcAngularModule } from './sxc-angular.module';
-export { AppComponent } from './sxc-app.component';
+
+export { AppComponent } from "./app.component"
 export { Context } from './context.service';
 export { HttpProvider } from './http-client/http.provider';
 

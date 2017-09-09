@@ -2,11 +2,11 @@ import { Http } from '@angular/http';
 import { HttpEvent, HttpParams, HttpHeaders, HttpHandler, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Context } from '..';
 import { HttpRequest } from '@angular/common/http';
 import { HttpObserve } from '@angular/common/http/src/client';
 import { Subject } from 'rxjs/Subject';
-import { ContextInfo } from "../context-info";
+import { ContextInfo } from "../context/context-info";
+import { Context } from "../context.service";
 
 // todo: review if we should change the concept to an interceptor instead of an inject
 
@@ -14,7 +14,7 @@ import { ContextInfo } from "../context-info";
 export class SxcHttpClient extends HttpClient {
   constructor(
     handler: HttpHandler,
-    private sxcNg: Context
+    private context: Context
   ) {
     super(handler);
   }
@@ -39,7 +39,7 @@ export class SxcHttpClient extends HttpClient {
     console.log('request test', arguments);
 
     // Subscribe to the 2sxc context.
-    this.sxcNg.complete.take(1)
+    this.context.complete.take(1)
       .subscribe(appContext => {
         let req: HttpRequest<any>;
 

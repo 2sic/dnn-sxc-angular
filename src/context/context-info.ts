@@ -2,7 +2,7 @@
 // These are the parameters which make up the current context / state of this app
 // It's mainly needed to ensure that the Http Service is correctly set up
 
-import { SxcInstance } from "./interfaces/sxc-instance";
+import { SxcInstance } from "../interfaces/sxc-instance";
 
 /**
  * the context in which the current app is running

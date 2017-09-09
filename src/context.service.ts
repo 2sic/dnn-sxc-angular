@@ -1,12 +1,12 @@
 import { ElementRef, Optional, Injectable } from '@angular/core';
-import { DnnDevSettings } from './dev/dnn-dev-settings';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
 import { SxcInstance } from "./interfaces/sxc-instance";
-import { ContextInfo } from "./context-info";
+import { Dev } from "./context/dev-context";
+import { ContextInfo } from "./context/context-info";
 
 declare const window: any;
 
@@ -29,7 +29,7 @@ export class Context {
     private sxcInstance: SxcInstance;
 
     constructor(
-        @Optional() private devSettings: DnnDevSettings
+        @Optional() private devSettings: Dev
     ) {
         this.moduleId = this.midSubject.asObservable();
         this.tabId = this.tidSubject.asObservable();

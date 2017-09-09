@@ -1,11 +1,11 @@
 import { ElementRef } from '@angular/core';
-import { DnnDevSettings } from './dev/dnn-dev-settings';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
 import { SxcInstance } from "./interfaces/sxc-instance";
-import { ContextInfo } from "./context-info";
+import { Dev } from "./context/dev-context";
+import { ContextInfo } from "./context/context-info";
 export declare class Context {
     private devSettings;
     complete: Observable<ContextInfo>;
@@ -22,7 +22,7 @@ export declare class Context {
     private contextSubject;
     private sxcSubject;
     private sxcInstance;
-    constructor(devSettings: DnnDevSettings);
+    constructor(devSettings: Dev);
     /**
      * Configure 2sxc in the context of a HTMLNode.
      * @param htmlNode the HTMLNode
