@@ -12,32 +12,26 @@ declare const window: any;
 
 @Injectable()
 export class Context {
-    complete: Observable<ContextInfo>;
-    moduleId: Observable<number>;
-    tabId: Observable<number>;
-    contentBlockId: Observable<number>;
-    antiForgeryToken: Observable<string>;
-    sxc: Observable<SxcInstance>;
-
     private globSxc: any;
-    private midSubject: ReplaySubject<number> = new ReplaySubject<number>();
-    private tidSubject: ReplaySubject<number> = new ReplaySubject<number>();
-    private cbIdSubject: ReplaySubject<number> = new ReplaySubject<number>();
-    private afTokenSubject: ReplaySubject<string> = new ReplaySubject<string>();
-    private contextSubject: ReplaySubject<ContextInfo> = new ReplaySubject<ContextInfo>();
-    private sxcSubject: ReplaySubject<SxcInstance> = new ReplaySubject<SxcInstance>();
+    private midSubject = new ReplaySubject<number>();
+    private tidSubject = new ReplaySubject<number>();
+    private cbIdSubject = new ReplaySubject<number>();
+    private afTokenSubject = new ReplaySubject<string>();
+    private sxcSubject = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
+    private contextSubject = new ReplaySubject<ContextInfo>();
+   
+    all = this.contextSubject.asObservable();
+    moduleId = this.midSubject.asObservable();
+    tabId = this.tidSubject.asObservable();
+    contentBlockId = this.cbIdSubject.asObservable();
+    antiForgeryToken = this.afTokenSubject.asObservable();
+    sxc = this.sxcSubject.asObservable();
+
 
     constructor(
         @Optional() private devSettings: Dev
     ) {
-        this.moduleId = this.midSubject.asObservable();
-        this.tabId = this.tidSubject.asObservable();
-        this.contentBlockId = this.cbIdSubject.asObservable();
-        this.antiForgeryToken = this.afTokenSubject.asObservable();
-        this.sxc = this.sxcSubject.asObservable();
-        this.complete = this.contextSubject.asObservable();
-
         // Dev settings with minimal ignore settings.
         devSettings = Object.assign({}, {
             ignoreMissing$2sxc: false,
@@ -70,6 +64,8 @@ export class Context {
             if (!this.devSettings.ignoreMissing$2sxc) {
                 throw new Error('cannot autoConfigure - missing $2sxc which helps auto-detect the module - make sure you include 2sxc.min.js');
             }
+
+            // just provide dev/debug settings
             this.midSubject.next(this.devSettings.moduleId);
             this.tidSubject.next(this.devSettings.tabId);
             this.cbIdSubject.next(0);

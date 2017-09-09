@@ -23,14 +23,14 @@ var Context = /** @class */ (function () {
         this.tidSubject = new ReplaySubject_1.ReplaySubject();
         this.cbIdSubject = new ReplaySubject_1.ReplaySubject();
         this.afTokenSubject = new ReplaySubject_1.ReplaySubject();
-        this.contextSubject = new ReplaySubject_1.ReplaySubject();
         this.sxcSubject = new ReplaySubject_1.ReplaySubject();
+        this.contextSubject = new ReplaySubject_1.ReplaySubject();
+        this.all = this.contextSubject.asObservable();
         this.moduleId = this.midSubject.asObservable();
         this.tabId = this.tidSubject.asObservable();
         this.contentBlockId = this.cbIdSubject.asObservable();
         this.antiForgeryToken = this.afTokenSubject.asObservable();
         this.sxc = this.sxcSubject.asObservable();
-        this.complete = this.contextSubject.asObservable();
         // Dev settings with minimal ignore settings.
         devSettings = Object.assign({}, {
             ignoreMissing$2sxc: false,
@@ -60,6 +60,7 @@ var Context = /** @class */ (function () {
             if (!this.devSettings.ignoreMissing$2sxc) {
                 throw new Error('cannot autoConfigure - missing $2sxc which helps auto-detect the module - make sure you include 2sxc.min.js');
             }
+            // just provide dev/debug settings
             this.midSubject.next(this.devSettings.moduleId);
             this.tidSubject.next(this.devSettings.tabId);
             this.cbIdSubject.next(0);

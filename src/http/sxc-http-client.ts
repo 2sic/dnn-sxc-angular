@@ -39,7 +39,7 @@ export class DnnHttpClient extends HttpClient {
     console.log('request test', arguments);
 
     // Subscribe to the context.
-    this.context.complete.take(1)
+    this.context.all.take(1)
       .subscribe(appContext => {
         let req: HttpRequest<any>;
 
