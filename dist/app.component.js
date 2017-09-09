@@ -6,8 +6,8 @@ exports.__esModule = true;
  * it's not attached to the DOM, so auto-detect wouldn't work
  */
 var AppComponent = /** @class */ (function () {
-    function AppComponent(element, sxcNg) {
-        sxcNg.autoConfigure(element);
+    function AppComponent(element, context) {
+        context.autoConfigure(element);
     }
     return AppComponent;
 }());

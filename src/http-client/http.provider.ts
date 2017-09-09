@@ -2,7 +2,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { RequestOptions, Http, XHRBackend } from '@angular/http';
 import { Provider } from '@angular/core';
 import { Context } from '..';
-import { SxcHttpClient } from "./sxc-http-client";
+import { DnnHttpClient } from "./sxc-http-client";
 
 export const HttpProvider: Provider = {
     provide: HttpClient,
@@ -11,6 +11,6 @@ export const HttpProvider: Provider = {
 };
 
 export function HttpProviderFactory(handler: HttpHandler, sxc: Context) {
-    return new SxcHttpClient(handler, sxc);
+    return new DnnHttpClient(handler, sxc);
 }
 

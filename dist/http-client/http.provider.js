@@ -9,6 +9,6 @@ exports.HttpProvider = {
     deps: [http_1.HttpHandler, __1.Context]
 };
 function HttpProviderFactory(handler, sxc) {
-    return new sxc_http_client_1.SxcHttpClient(handler, sxc);
+    return new sxc_http_client_1.DnnHttpClient(handler, sxc);
 }
 exports.HttpProviderFactory = HttpProviderFactory;

@@ -1,7 +1,7 @@
 // This is a base class for all apps which run in DNN.
 // It ensures that the rest of the parts depending on DNN parameters are correctly initialized
 import { ElementRef } from '@angular/core';
-import { Context } from "./context.service";
+import { Context } from "./context/context.service";
 
 /**
  * A root app component which initializes the context-providers once the app is loaded
@@ -11,8 +11,8 @@ import { Context } from "./context.service";
 export class AppComponent {
   constructor(
     element: ElementRef,
-    sxcNg: Context
+    context: Context
   ) {
-    sxcNg.autoConfigure(element);
+    context.autoConfigure(element);
   }
 }

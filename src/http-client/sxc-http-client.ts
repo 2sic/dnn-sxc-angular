@@ -6,12 +6,12 @@ import { HttpRequest } from '@angular/common/http';
 import { HttpObserve } from '@angular/common/http/src/client';
 import { Subject } from 'rxjs/Subject';
 import { ContextInfo } from "../context/context-info";
-import { Context } from "../context.service";
+import { Context } from "../context/context.service";
 
 // todo: review if we should change the concept to an interceptor instead of an inject
 
 @Injectable()
-export class SxcHttpClient extends HttpClient {
+export class DnnHttpClient extends HttpClient {
   constructor(
     handler: HttpHandler,
     private context: Context
@@ -38,7 +38,7 @@ export class SxcHttpClient extends HttpClient {
 
     console.log('request test', arguments);
 
-    // Subscribe to the 2sxc context.
+    // Subscribe to the context.
     this.context.complete.take(1)
       .subscribe(appContext => {
         let req: HttpRequest<any>;

@@ -2,8 +2,8 @@ import { HttpParams, HttpHeaders, HttpHandler, HttpClient } from '@angular/commo
 import { Observable } from 'rxjs/Rx';
 import { HttpRequest } from '@angular/common/http';
 import { HttpObserve } from '@angular/common/http/src/client';
-import { Context } from "../context.service";
-export declare class SxcHttpClient extends HttpClient {
+import { Context } from "../context/context.service";
+export declare class DnnHttpClient extends HttpClient {
     private context;
     constructor(handler: HttpHandler, context: Context);
     /**

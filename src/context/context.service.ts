@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
-import { SxcInstance } from "./interfaces/sxc-instance";
-import { Dev } from "./context/dev-context";
-import { ContextInfo } from "./context/context-info";
+import { SxcInstance } from "../interfaces/sxc-instance";
+import { Dev } from "./dev-context";
+import { ContextInfo } from "./context-info";
 
 declare const window: any;
 

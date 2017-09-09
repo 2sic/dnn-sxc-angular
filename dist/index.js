@@ -2,11 +2,9 @@
 exports.__esModule = true;
 var app_component_1 = require("./app.component");
 exports.AppComponent = app_component_1.AppComponent;
-var context_service_1 = require("./context.service");
+var context_service_1 = require("./context/context.service");
 exports.Context = context_service_1.Context;
 var http_provider_1 = require("./http-client/http.provider");
-exports.HttpProvider = http_provider_1.HttpProvider;
-var sxc_data_provider_1 = require("./sxc-data/sxc-data.provider");
-exports.SxcDataProvider = sxc_data_provider_1.SxcDataProvider;
-var sxc_data_1 = require("./sxc-data/sxc-data");
-exports.SxcData = sxc_data_1.SxcData;
+exports.HttpClient = http_provider_1.HttpProvider;
+var data_1 = require("./sxc/data");
+exports.Data = data_1.Data;

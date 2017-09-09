@@ -17,4 +17,9 @@ export class Content<T> {
     // const headers = new HttpHeaders();
     return this.http.get<T[]>(url);//, { headers });
   }
+
+  post(id: number, data: any): Observable<T>{
+    throw "not implemented yet";
+  }
+
 }

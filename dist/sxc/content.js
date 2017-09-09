@@ -14,6 +14,9 @@ var Content = /** @class */ (function () {
         // const headers = new HttpHeaders();
         return this.http.get(url); //, { headers });
     };
+    Content.prototype.post = function (id, data) {
+        throw "not implemented yet";
+    };
     return Content;
 }());
 exports.Content = Content;

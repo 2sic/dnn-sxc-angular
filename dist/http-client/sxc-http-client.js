@@ -21,9 +21,9 @@ var core_1 = require("@angular/core");
 var http_2 = require("@angular/common/http");
 var Subject_1 = require("rxjs/Subject");
 // todo: review if we should change the concept to an interceptor instead of an inject
-var SxcHttpClient = /** @class */ (function (_super) {
-    __extends(SxcHttpClient, _super);
-    function SxcHttpClient(handler, context) {
+var DnnHttpClient = /** @class */ (function (_super) {
+    __extends(DnnHttpClient, _super);
+    function DnnHttpClient(handler, context) {
         var _this = _super.call(this, handler) || this;
         _this.context = context;
         return _this;
@@ -34,12 +34,12 @@ var SxcHttpClient = /** @class */ (function (_super) {
      * @param url request url
      * @param options request options
      */
-    SxcHttpClient.prototype.request = function (first, url, options) {
+    DnnHttpClient.prototype.request = function (first, url, options) {
         var _this = this;
         if (options === void 0) { options = {}; }
         var result = new Subject_1.Subject();
         console.log('request test', arguments);
-        // Subscribe to the 2sxc context.
+        // Subscribe to the context.
         this.context.complete.take(1)
             .subscribe(function (appContext) {
             var req;
@@ -77,7 +77,7 @@ var SxcHttpClient = /** @class */ (function (_super) {
      * @param options request options
      * @param appContext 2sxc appContext
      */
-    SxcHttpClient.prototype.appendHeaders = function (options, appContext) {
+    DnnHttpClient.prototype.appendHeaders = function (options, appContext) {
         if (!options.headers) {
             options.headers = new http_1.HttpHeaders();
         }
@@ -88,9 +88,9 @@ var SxcHttpClient = /** @class */ (function (_super) {
         options.headers.append('X-Debugging-Hint', 'bootstrapped by Sxc4Angular');
         return options;
     };
-    SxcHttpClient = __decorate([
+    DnnHttpClient = __decorate([
         core_1.Injectable()
-    ], SxcHttpClient);
-    return SxcHttpClient;
+    ], DnnHttpClient);
+    return DnnHttpClient;
 }(http_1.HttpClient));
-exports.SxcHttpClient = SxcHttpClient;
+exports.DnnHttpClient = DnnHttpClient;
