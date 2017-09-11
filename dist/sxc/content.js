@@ -14,7 +14,7 @@ var Content = /** @class */ (function () {
         return this.http.get(url);
     };
     Content.prototype.post = function (id, data) {
-        throw "not implemented yet";
+        throw new Error('not implemented yet');
     };
     return Content;
 }());

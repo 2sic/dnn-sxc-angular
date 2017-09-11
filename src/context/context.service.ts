@@ -5,7 +5,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
 import { SxcInstance } from "../interfaces/sxc-instance";
-import { Dev } from "./dev-context";
+import { DevContext as DevContext } from "./dev-context";
 import { ContextInfo } from "./context-info";
 
 declare const window: any;
@@ -29,7 +29,7 @@ export class Context {
     sxc = this.sxcSubject.asObservable();
 
     constructor(
-        @Optional() private devSettings: Dev
+        @Optional() private devSettings: DevContext
     ) {
         // Dev settings with minimal ignore settings.
         devSettings = Object.assign({}, {

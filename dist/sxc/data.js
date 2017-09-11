@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 var content_1 = require("./content");
 var query_1 = require("./query");
-var di_1 = require("@angular/core/src/di");
+var core_1 = require("@angular/core");
 var Data = /** @class */ (function () {
     function Data(http) {
         this.http = http;
@@ -20,7 +20,7 @@ var Data = /** @class */ (function () {
         return new query_1.Query(this.http, name);
     };
     Data = __decorate([
-        di_1.Injectable()
+        core_1.Injectable()
     ], Data);
     return Data;
 }());

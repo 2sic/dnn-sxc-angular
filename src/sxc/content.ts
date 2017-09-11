@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 export class Content<T> {
   constructor(
     private http: HttpClient,
-    private contentType: string
+    private contentType: string,
   ) { }
 
   get(id: number = null): Observable<T[]> {
@@ -19,6 +19,6 @@ export class Content<T> {
   }
 
   post(id: number, data: any): Observable<T> {
-    throw "not implemented yet";
+    throw new Error('not implemented yet');
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Content } from './content';
-import { Query } from "./query";
-import { Injectable } from "@angular/core/src/di";
+import { Query } from './query';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Data {
@@ -9,11 +9,11 @@ export class Data {
     private http: HttpClient,
   ) { }
 
-  content<T>(contentType: string): Content<T> {
+  public content<T>(contentType: string): Content<T> {
     return new Content<T>(this.http, contentType);
   }
 
-  query<T>(name: string) {
+  public query<T>(name: string) {
     return new Query<T>(this.http, name);
   }
 }

@@ -55,16 +55,13 @@ export class DnnHttpClient extends HttpClient {
           // urlOrRequest = res.sxc.resolveServiceUrl(<string>first);
 
           first = appContext.sxc.resolveServiceUrl(<string>first);
-          console.log(first, url);
 
           // It's a string, so it represents a URL.
-          req = new HttpRequest(first, url!, options.body || null, {
+          req = new HttpRequest(first, url !, options.body || null, {
             headers: options.headers,
             params: options.params,
             reportProgress: options.reportProgress,
-
-            // By default, JSON is assumed to be returned for all calls.
-            responseType: options.responseType, // 2017-09-09 2dm, this is the default on HttpClient // || 'json',
+            responseType: options.responseType,
             withCredentials: options.withCredentials,
           });
         }

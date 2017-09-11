@@ -1,5 +1,6 @@
-export { SxcAppComponent } from "./app.component"
+export { SxcAppComponent as DnnAppComponent } from './app.component'
+export { DevContext } from './context/dev-context';
 export { Context } from './context/context.service';
 export { HttpProvider as HttpClient } from './http/http.provider';
 export { Data } from './sxc/data';
-export { DnnInterceptor } from './http/interceptor.provider'
+// export { DnnInterceptor } from './http/interceptor.provider';
