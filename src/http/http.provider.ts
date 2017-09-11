@@ -13,4 +13,3 @@ export const HttpProvider: Provider = {
 export function HttpProviderFactory(handler: HttpHandler, sxc: Context) {
     return new DnnHttpClient(handler, sxc);
 }
-

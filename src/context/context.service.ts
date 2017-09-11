@@ -20,14 +20,13 @@ export class Context {
     private sxcSubject = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
     private contextSubject = new ReplaySubject<ContextInfo>();
-   
+
     all = this.contextSubject.asObservable();
     moduleId = this.midSubject.asObservable();
     tabId = this.tidSubject.asObservable();
     contentBlockId = this.cbIdSubject.asObservable();
     antiForgeryToken = this.afTokenSubject.asObservable();
     sxc = this.sxcSubject.asObservable();
-
 
     constructor(
         @Optional() private devSettings: Dev
@@ -99,8 +98,7 @@ export class Context {
 
                         this.tidSubject.next(sf.getTabId());
                         this.afTokenSubject.next(sf.getAntiForgeryValue());
-                    }
-                    else{
+                    } else {
                         // Must reset, as they are incorrectly initialized when accessed early.
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
                             window.dnn.vars = null;
@@ -120,5 +118,4 @@ export class Context {
         this.afTokenSubject.next(this.devSettings.antiForgeryToken);
     }
 }
-
 // export class DnnAngular extends SxcAngular { };

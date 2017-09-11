@@ -14,12 +14,11 @@ export class Content<T> {
     if (id) {
       url += `/${id}`;
     }
-    // const headers = new HttpHeaders();
-    return this.http.get<T[]>(url);//, { headers });
+
+    return this.http.get<T[]>(url);
   }
 
-  post(id: number, data: any): Observable<T>{
+  post(id: number, data: any): Observable<T> {
     throw "not implemented yet";
   }
-
 }

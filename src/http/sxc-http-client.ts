@@ -9,7 +9,6 @@ import { ContextInfo } from "../context/context-info";
 import { Context } from "../context/context.service";
 
 // todo: review if we should change the concept to an interceptor instead of an inject
-
 @Injectable()
 export class DnnHttpClient extends HttpClient {
   constructor(
@@ -59,7 +58,7 @@ export class DnnHttpClient extends HttpClient {
           console.log(first, url);
 
           // It's a string, so it represents a URL.
-          req = new HttpRequest(first, url !, options.body || null, {
+          req = new HttpRequest(first, url!, options.body || null, {
             headers: options.headers,
             params: options.params,
             reportProgress: options.reportProgress,
