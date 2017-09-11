@@ -11,10 +11,6 @@ export class Query<T> {
 
   get(): Observable<T[]> {
     let url = `app/auto/query/${this.name}`;
-    // if (name) {
-    //   url += `/${name}`;
-    // }
-    // const headers = new HttpHeaders();
-    return this.http.get<T[]>(url);//, { headers });
+    return this.http.get<T[]>(url);
   }
 }

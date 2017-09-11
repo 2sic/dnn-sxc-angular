@@ -1,8 +1,8 @@
 import { SxcInstance } from "../interfaces/sxc-instance";
 /**
- * the context in which the current app is running
- * important to interact with the server
- * or with the DNN around it
+ * The context in which the current app is running.
+ * Important to interact with the server
+ * or with the DNN around it.
  */
 export declare class ContextInfo {
     /**

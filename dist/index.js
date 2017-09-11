@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var app_component_1 = require("./app.component");
-exports.AppComponent = app_component_1.AppComponent;
+exports.SxcAppComponent = app_component_1.SxcAppComponent;
 var context_service_1 = require("./context/context.service");
 exports.Context = context_service_1.Context;
 var http_provider_1 = require("./http/http.provider");

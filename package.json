@@ -69,7 +69,8 @@
     "rxjs": "^5.4.0"
   },
   "devDependencies": {
-    "cpx": "^1.5.0"
+    "cpx": "^1.5.0",
+    "tslint-config-airbnb": "^5.2.1"
   },
   "directories": {},
   "dist": {
@@ -90,7 +91,7 @@
   },
   "scripts": {
     "build:main": "tsc index.ts -d",
-    "copy:dist": "cpx \"dist/**/*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular/dist\"",
+    "copy:dist": "cpx \"dist/**/*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "typings": "index.d.ts",

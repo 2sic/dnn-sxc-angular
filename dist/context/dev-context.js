@@ -1,5 +1,5 @@
 "use strict";
-// This lets you configure test-values during development
+// This lets you configure test-values during development.
 exports.__esModule = true;
 var Dev = /** @class */ (function () {
     function Dev() {

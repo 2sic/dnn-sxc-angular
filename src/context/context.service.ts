@@ -5,7 +5,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
 import { SxcInstance } from "../interfaces/sxc-instance";
-import { Dev } from "./dev-context";
+import { DevContext as DevContext } from "./dev-context";
 import { ContextInfo } from "./context-info";
 
 declare const window: any;
@@ -20,7 +20,7 @@ export class Context {
     private sxcSubject = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
     private contextSubject = new ReplaySubject<ContextInfo>();
-   
+
     all = this.contextSubject.asObservable();
     moduleId = this.midSubject.asObservable();
     tabId = this.tidSubject.asObservable();
@@ -28,9 +28,8 @@ export class Context {
     antiForgeryToken = this.afTokenSubject.asObservable();
     sxc = this.sxcSubject.asObservable();
 
-
     constructor(
-        @Optional() private devSettings: Dev
+        @Optional() private devSettings: DevContext
     ) {
         // Dev settings with minimal ignore settings.
         devSettings = Object.assign({}, {
@@ -99,8 +98,7 @@ export class Context {
 
                         this.tidSubject.next(sf.getTabId());
                         this.afTokenSubject.next(sf.getAntiForgeryValue());
-                    }
-                    else{
+                    } else {
                         // Must reset, as they are incorrectly initialized when accessed early.
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
                             window.dnn.vars = null;
@@ -120,5 +118,4 @@ export class Context {
         this.afTokenSubject.next(this.devSettings.antiForgeryToken);
     }
 }
-
 // export class DnnAngular extends SxcAngular { };
