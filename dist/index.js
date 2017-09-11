@@ -1,12 +1,13 @@
 "use strict";
 exports.__esModule = true;
 var app_component_1 = require("./app.component");
-exports.SxcAppComponent = app_component_1.SxcAppComponent;
+exports.DnnAppComponent = app_component_1.AppComponent;
+var dev_context_1 = require("./context/dev-context");
+exports.DevContext = dev_context_1.DevContext;
 var context_service_1 = require("./context/context.service");
 exports.Context = context_service_1.Context;
 var http_provider_1 = require("./http/http.provider");
-exports.HttpProvider = http_provider_1.HttpProvider;
+exports.DnnHttp = http_provider_1.HttpProvider;
 var data_1 = require("./sxc/data");
 exports.Data = data_1.Data;
-var interceptor_provider_1 = require("./http/interceptor.provider");
-exports.DnnInterceptor = interceptor_provider_1.DnnInterceptor;
+// export { DnnInterceptor } from './http/interceptor.provider';

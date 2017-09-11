@@ -55,13 +55,11 @@ var DnnHttpClient = /** @class */ (function (_super) {
                 // url = url || appContext.sxc.resolveServiceUrl(<string>first)
                 // urlOrRequest = res.sxc.resolveServiceUrl(<string>first);
                 first = appContext.sxc.resolveServiceUrl(first);
-                console.log(first, url);
                 // It's a string, so it represents a URL.
                 req = new http_2.HttpRequest(first, url, options.body || null, {
                     headers: options.headers,
                     params: options.params,
                     reportProgress: options.reportProgress,
-                    // By default, JSON is assumed to be returned for all calls.
                     responseType: options.responseType,
                     withCredentials: options.withCredentials
                 });

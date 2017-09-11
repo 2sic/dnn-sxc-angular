@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from "rxjs/Rx";
-import { Context } from "../index";
+import { Context } from "../context/context.service";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {

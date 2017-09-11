@@ -9,7 +9,7 @@ import { ElementRef } from '@angular/core';
  * This is the earliest moment we can access the ElementRef, because before that 
  * it's not attached to the DOM, so auto-detect wouldn't work.
  */
-export class SxcAppComponent {
+export class AppComponent {
   constructor(
     element: ElementRef,
     context: Context,

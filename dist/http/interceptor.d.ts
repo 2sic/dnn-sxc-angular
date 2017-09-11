@@ -1,6 +1,6 @@
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from "rxjs/Rx";
-import { Context } from "../index";
+import { Context } from "../context/context.service";
 export declare class Interceptor implements HttpInterceptor {
     private context;
     constructor(handler: HttpHandler, context: Context);
