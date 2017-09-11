@@ -83,7 +83,7 @@ export class Context {
 
         // Check if DNN Services framework exists.
         if (window.$ && window.$.ServicesFramework) {
-
+ 
             // Run timer till sf is ready, but max for a second.
             const timer = Observable.timer(0, 100)
                 .take(10)
