@@ -93,7 +93,7 @@ export class Context {
                     const sf = window.$.ServicesFramework(this.sxcInstance.id);
 
                     // Check if sf is initialized.
-                    if (sf.getAntiForgeryValue()) {
+                    if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
                         timer.unsubscribe();
 
                         this.tidSubject.next(sf.getTabId());

@@ -35,8 +35,6 @@ export class DnnHttpClient extends HttpClient {
   } = {}): Observable<any> {
     const result = new Subject<HttpEvent<any>>();
 
-    console.log('request test', arguments);
-
     // Subscribe to the context.
     this.context.all.take(1)
       .subscribe(appContext => {

@@ -83,7 +83,7 @@ var Context = /** @class */ (function () {
                 // This must be accessed after a delay, as the SF is not ready yet.
                 var sf = window.$.ServicesFramework(_this.sxcInstance.id);
                 // Check if sf is initialized.
-                if (sf.getAntiForgeryValue()) {
+                if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
                     timer_1.unsubscribe();
                     _this.tidSubject.next(sf.getTabId());
                     _this.afTokenSubject.next(sf.getAntiForgeryValue());

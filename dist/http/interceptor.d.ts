@@ -3,6 +3,6 @@ import { Observable } from "rxjs/Rx";
 import { Context } from "../context/context.service";
 export declare class Interceptor implements HttpInterceptor {
     private context;
-    constructor(handler: HttpHandler, context: Context);
+    constructor(context: Context);
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>;
 }

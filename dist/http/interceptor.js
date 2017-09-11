@@ -8,12 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 var core_1 = require("@angular/core");
 var Interceptor = /** @class */ (function () {
-    function Interceptor(handler, context) {
+    function Interceptor(context) {
         this.context = context;
     }
     Interceptor.prototype.intercept = function (req, next) {
-        // todo: add code here instead
-        return next.handle(req);
+        // const result = new Subject<HttpEvent<any>>();
+        return this.context.all.take(1)
+            .flatMap(function (ctx) {
+            // Clone the request and update the url with 2sxc params.
+            var newReq = req.clone({
+                url: ctx.sxc.resolveServiceUrl(req.url),
+                setHeaders: {
+                    ModuleId: ctx.moduleId.toString(),
+                    TabId: ctx.tabId.toString(),
+                    ContentBlockId: ctx.contentBlockId.toString(),
+                    RequestVerificationToken: ctx.antiForgeryToken,
+                    'X-Debugging-Hint': 'bootstrapped by Sxc4Angular'
+                }
+            });
+            return next.handle(newReq);
+        });
     };
     Interceptor = __decorate([
         core_1.Injectable()

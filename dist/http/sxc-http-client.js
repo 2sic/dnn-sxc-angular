@@ -38,7 +38,6 @@ var DnnHttpClient = /** @class */ (function (_super) {
         var _this = this;
         if (options === void 0) { options = {}; }
         var result = new Subject_1.Subject();
-        console.log('request test', arguments);
         // Subscribe to the context.
         this.context.all.take(1)
             .subscribe(function (appContext) {
