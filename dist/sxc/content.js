@@ -11,8 +11,7 @@ var Content = /** @class */ (function () {
         if (id) {
             url += "/" + id;
         }
-        // const headers = new HttpHeaders();
-        return this.http.get(url); //, { headers });
+        return this.http.get(url);
     };
     Content.prototype.post = function (id, data) {
         throw "not implemented yet";

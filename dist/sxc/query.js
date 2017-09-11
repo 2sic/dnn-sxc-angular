@@ -7,11 +7,7 @@ var Query = /** @class */ (function () {
     }
     Query.prototype.get = function () {
         var url = "app/auto/query/" + this.name;
-        // if (name) {
-        //   url += `/${name}`;
-        // }
-        // const headers = new HttpHeaders();
-        return this.http.get(url); //, { headers });
+        return this.http.get(url);
     };
     return Query;
 }());

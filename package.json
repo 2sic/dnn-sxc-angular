@@ -90,7 +90,7 @@
   },
   "scripts": {
     "build:main": "tsc index.ts -d",
-    "copy:dist": "cpx \"dist/**/*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular/dist\"",
+    "copy:dist": "cpx \"dist/**/*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "typings": "index.d.ts",
