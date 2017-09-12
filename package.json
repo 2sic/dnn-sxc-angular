@@ -92,6 +92,7 @@
   "scripts": {
     "build:main": "tsc index.ts -d",
     "copy:dist": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\" -w",
+    "copy:2dm": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },

@@ -1,5 +1,7 @@
 "use strict";
 exports.__esModule = true;
+var dnn_sxc_module_1 = require("./dnn.sxc.module");
+exports.DnnSxcModule = dnn_sxc_module_1.DnnSxcModule;
 var app_component_1 = require("./app.component");
 exports.DnnAppComponent = app_component_1.AppComponent;
 var dev_context_1 = require("./context/dev-context");
@@ -8,5 +10,5 @@ var context_service_1 = require("./context/context.service");
 exports.Context = context_service_1.Context;
 var data_1 = require("./sxc/data");
 exports.Data = data_1.Data;
-var interceptor_provider_1 = require("./http/interceptor.provider");
-exports.DnnInterceptor = interceptor_provider_1.DnnInterceptor;
+var dnn_interceptor_1 = require("./http/dnn.interceptor");
+exports.DnnInterceptor = dnn_interceptor_1.DnnInterceptor;

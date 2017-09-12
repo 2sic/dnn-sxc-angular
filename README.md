@@ -5,22 +5,51 @@ Connector for angular 4.3+ ([git](https://github.com/angular/angular) | [web](ht
 
 This is a helper system which
 1. automatically provides all important dnn-parameters (module ID, security token, etc.) to angular
-2. overrides the HttpClient service to automatically use these parameters
+2. adds an Http Interceptor for the HttpClient which automatically applies these parameters to all requests
 
 It uses observables to make it happen, thereby avoiding timing / async problems common in this scenario. 
 
-## How To Use
-It's published on NPM, so the most common way is to 
+## How to get this package
+It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm install:
 
-1. get it using `npm install -d @2sic.com/dnn-sxc-angular`
-1. make sure your application uses the enhanced HttpClient by adding the provider to main.ts, so you'll need to add  
-`...todo`  
-and  
-`...todo`
-1. make sure initializations happen, by changing your app.component.ts from  
-`todo`  
+* `npm install -d @2sic.com/dnn-sxc-angular`
+
+## How To Use
+Make sure your application uses the Http Interceptor by adding the important providers to app.module.ts, so you'll need to add:
+```
+import { DnnSxcModule } from '@2sic.com/dnn-sxc-angular'
+```  
+and this module to the @NgModule
+
+```typescript
+@NgModule({
+    // your stuff
+  imports: [ // in here, you should add...
+    DnnSxcModule, //...this module
+    // more of your stuff
+  ],
+    // more of your stuff
+})
+export class AppModule { }
+```
+
+Now, make sure initializations happen, by changing your app.component.ts from
+
+```typescript
+export class AppComponent {...}
+```  
 to  
-`todo`
+
+```typescript
+export class AppComponent extends DnnAppComponent {
+  constructor(
+    element: ElementRef,
+    context: Context,
+  ) {
+    super(element, context);
+  }
+}
+```
 
 That's it. 
 
