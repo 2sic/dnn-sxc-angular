@@ -9,8 +9,8 @@ export class Query<T> {
     private name: string
   ) { }
 
-  get(): Observable<T[]> {
+  get(): Observable<T> {
     let url = `app/auto/query/${this.name}`;
-    return this.http.get<T[]>(url);
+    return this.http.get<T>(url);
   }
 }
