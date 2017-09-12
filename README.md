@@ -16,19 +16,27 @@ It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular)
 
 ## How To Use
 Make sure your application uses the Http Interceptor by adding the important providers to app.module.ts, so you'll need to add:
-```
+
+```typescript
 import { DnnSxcModule } from '@2sic.com/dnn-sxc-angular'
 ```  
-and this module to the @NgModule
+
+and this module to the @NgModule - here's an example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.module.ts), yours will look a bit different.
 
 ```typescript
 @NgModule({
-    // your stuff
-  imports: [ // in here, you should add...
-    DnnSxcModule, //...this module
-    // more of your stuff
+  declarations: [
+    AppComponent
   ],
-    // more of your stuff
+  imports: [
+    DnnSxcModule,     // DnnSxc module ensures all connectors are available
+    HttpClientModule, // important - this changed in Angular 4.3
+    BrowserModule,
+    FormsModule,
+    DirectoryModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
@@ -51,11 +59,9 @@ export class AppComponent extends DnnAppComponent {
 }
 ```
 
-That's it. 
+Again you can compare it with the example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.component.ts). That's it!
 
 
 
-
-**build solution for npm**
-- change version number
-- npm publish
+## Internal Notes
+* read [npm instructions](npm-instructions) to see how to publish a release
