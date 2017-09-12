@@ -1,38 +1,12 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "@2sic.com/dnn-sxc-angular@1.0.0",
-        "scope": "@2sic.com",
-        "escapedName": "@2sic.com%2fdnn-sxc-angular",
-        "name": "@2sic.com/dnn-sxc-angular",
-        "rawSpec": "1.0.4",
-        "spec": "1.0.4",
-        "type": "version"
-      },
-      "C:\\Projects\\New folder"
-    ],
-    [
-      {
-        "raw": "@2sic.com/dnn-sxc-angular",
-        "scope": "@2sic.com",
-        "escapedName": "@2sic.com%2fdnn-sxc-angular",
-        "name": "@2sic.com/dnn-sxc-angular",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
-      },
-      "C:\\Users\\2cb\\Documents\\app-dnn-sxc-angular-dev"
-    ]
-  ],
   "_from": "@2sic.com/dnn-sxc-angular",
-  "_id": "@2sic.com/dnn-sxc-angular@1.0.4",
+  "_id": "@2sic.com/dnn-sxc-angular@1.2.0",
   "_inCache": true,
   "_location": "/@2sic.com/dnn-sxc-angular",
   "_nodeVersion": "7.7.3",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/dnn-sxc-angular-1.0.4.tgz_1504278074805_0.18234755541197956"
+    "tmp": "tmp/dnn-sxc-angular-1.2.0.tgz_1504278074805_0.18234755541197956"
   },
   "_npmUser": {
     "name": "christophbuehler",
@@ -53,7 +27,7 @@
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@2sic.com/dnn-sxc-angular/-/dnn-sxc-angular-1.0.4.tgz",
+  "_resolved": "https://registry.npmjs.org/@2sic.com/dnn-sxc-angular/-/dnn-sxc-angular-1.2.0.tgz",
   "_shasum": "3b5924b10515bdadcb46d6fa0257181698d5b560",
   "_shrinkwrap": null,
   "_spec": "@2sic.com/dnn-sxc-angular",
@@ -75,7 +49,7 @@
   "directories": {},
   "dist": {
     "shasum": "fae4a3b33304545c0c5ddf9fb1131cdc91086cfc",
-    "tarball": "https://registry.npmjs.org/@2sic.com/dnn-sxc-angular/-/sxc-angular-1.0.3.tgz"
+    "tarball": "https://registry.npmjs.org/@2sic.com/dnn-sxc-angular/-/sxc-angular-1.2.0.tgz"
   },
   "gitHead": "08eb8fc3226c22f147609bffd9d7090c26a48f7e",
   "homepage": "https://github.com/2sic/dnn-sxc-angular#readme",
@@ -97,5 +71,5 @@
     "develop": "tsc -watch"
   },
   "typings": "index.d.ts",
-  "version": "1.1.0"
+  "version": "1.2.0"
 }
