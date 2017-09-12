@@ -25,7 +25,7 @@
   "maintainers": [],
   "name": "@2sic.com/dnn-sxc-angular",
   "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
+  "readme": "readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2sic/dnn-sxc-angular.git"
