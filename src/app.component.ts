@@ -10,10 +10,25 @@ import { ElementRef } from '@angular/core';
  * it's not attached to the DOM, so auto-detect wouldn't work.
  */
 export class AppComponent {
+  /**
+   * 
+   * @param element the angular ElementRef - required to auto-detect moduleId and more
+   * @param context the context service, which handles and shares auto-detection
+   * @param enableDefaultSubmit 
+   */
   constructor(
     element: ElementRef,
     context: Context,
+    enableDefaultSubmit?: boolean
   ) {
     context.autoConfigure(element);
+    if(!enableDefaultSubmit){
+      // console.log("dnn-sxc-angular - will prevent enter-buttons from causing submit")
+      element.nativeElement.addEventListener('keydown', function(e) {
+        if(e.keyCode==13)
+          e.preventDefault();
+      });
+  
+    }
   }
 }

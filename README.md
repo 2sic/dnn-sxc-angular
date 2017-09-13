@@ -6,6 +6,7 @@ Connector for angular 4.3+ ([git](https://github.com/angular/angular) | [web](ht
 This is a helper system which
 1. automatically provides all important dnn-parameters (module ID, security token, etc.) to angular
 2. adds an Http Interceptor for the HttpClient which automatically applies these parameters to all requests
+3. prevents the enter-key from causing DNN form submits (you can override this)
 
 It uses observables to make it happen, thereby avoiding timing / async problems common in this scenario. 
 
