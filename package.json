@@ -1,5 +1,7 @@
 {
-  "author": "",
+  "name": "@2sic.com/dnn-sxc-angular",
+  "version": "1.3.4",
+  "author": "2sic.com - daniel mettler and christoph bühler",
   "bugs": {
     "url": "https://github.com/2sic/dnn-sxc-angular/issues"
   },
@@ -15,16 +17,11 @@
     "tslint-config-airbnb": "^5.2.1"
   },
   "directories": {},
-  "dist": {
-    "shasum": "fae4a3b33304545c0c5ddf9fb1131cdc91086cfc",
-    "tarball": "https://registry.npmjs.org/@2sic.com/dnn-sxc-angular/-/sxc-angular-1.3.3.tgz"
-  },
   "gitHead": "08eb8fc3226c22f147609bffd9d7090c26a48f7e",
   "homepage": "https://github.com/2sic/dnn-sxc-angular#readme",
   "license": "MIT",
   "main": "index.ts",
   "maintainers": [],
-  "name": "@2sic.com/dnn-sxc-angular",
   "optionalDependencies": {},
   "readme": "readme",
   "repository": {
@@ -38,6 +35,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
-  "typings": "index.d.ts",
-  "version": "1.3.3"
+  "typings": "index.d.ts"
 }
