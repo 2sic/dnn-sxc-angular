@@ -68,9 +68,6 @@ You can compare it with the example from the [Angular Directory App](https://git
 ### Using WebAPIs inside DNN
 This will now work automatically, because all headers etc. are now automatically added by the system. 
 
-### Getting ModuleId, TabId, etc.
-There is a `Context` object which provides these properties as observables. Just inject `Context` in your controller, service or whatever and access it from there. 
-
 ### Using 2sxc Content-Items, Queries and APIs
 This package contains a `Data` object, which provides 3 observable streams
 
@@ -80,8 +77,13 @@ This package contains a `Data` object, which provides 3 observable streams
 
 To use them, best check out the demo app or simply work through TypeScript intelisense - we documented all the commands. 
 
-### Getting the `sxc` Instance Object
-If you need this, you can always get it as an observable from the `Context` object. 
+### Getting ModuleId, TabId, etc. and the `sxc` Instance
+There is a `Context` object which provides these properties as streams (observables). Just inject `Context` and access it from there. Note that you almost never need this, as the HttpClient is already configured and ready to go, including the headers it needs. 
+
+* `moduleId$`
+* `tabId$`
+* `sxc$`
+* etc. (there are about 3 more...)
 
 
 ## Internal Notes
