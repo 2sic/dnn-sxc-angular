@@ -15,6 +15,9 @@ It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular)
 * `npm install -d @2sic.com/dnn-sxc-angular`
 
 ## How To Use
+### Setup
+The following instructions help you get started, but it's best to also look at a real app using this - like the [Angular Directory App](https://github.com/2sic/app-directory-angular/).
+
 Make sure your application uses the Http Interceptor by adding the important providers to app.module.ts, so you'll need to add:
 
 ```typescript
@@ -31,7 +34,7 @@ and this module to the @NgModule - here's an example from the [Angular Directory
   imports: [
     DnnSxcModule,     // DnnSxc module ensures all connectors are available
     HttpClientModule, // important - this changed in Angular 4.3
-    BrowserModule,
+    BrowserModule,    // the following are just examples
     FormsModule,
     DirectoryModule,
     RouterModule.forRoot(appRoutes)
@@ -59,13 +62,30 @@ export class AppComponent extends DnnAppComponent {
 }
 ```
 
-Again you can compare it with the example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.component.ts). That's it!
+You can compare it with the example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.component.ts). That's it!
 
+### Using WebAPIs inside DNN
+This will now work automatically, because all headers etc. are now automatically added by the system. 
+
+### Getting ModuleId, TabId, etc.
+There is a `Context` object which provides these properties as observables. Just inject `Context` in your controller, service or whatever and access it from there. 
+
+### Using 2sxc Content-Items, Queries and APIs
+This package contains a `Data` object, which provides 3 observable streams
+
+* `content$`
+* `query$`
+* `api$`
+
+To use them, best check out the demo app or simply work through TypeScript intelisense - we documented all the commands. 
+
+### Getting the `sxc` Instance Object
+If you need this, you can always get it as an observable from the `Context` object. 
 
 
 ## Internal Notes
 * read [npm instructions](npm-instructions) to see how to publish a release
 
 ## Todo
-* create simple app-api access
+* create & test simple app-api access
 * enhance the content-manager to provide write commands (ATM read-only)
