@@ -21,10 +21,13 @@ export class AppComponent {
     context: Context,
     enableDefaultSubmit?: boolean
   ) {
+    // auto-config to pick up tab-id, module id, etc.
     context.autoConfigure(element);
+
+    // prevent asp.net submit action caused by enter-keys inside our app
     if(!enableDefaultSubmit){
       // console.log("dnn-sxc-angular - will prevent enter-buttons from causing submit")
-      element.nativeElement.addEventListener('keydown', function(e) {
+      element.nativeElement.addEventListener('keydown', function(e: any) {
         if(e.keyCode==13)
           e.preventDefault();
       });

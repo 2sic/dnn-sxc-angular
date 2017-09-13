@@ -15,7 +15,7 @@ export class Interceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // const result = new Subject<HttpEvent<any>>();
 
-    return this.context.all.take(1)
+    return this.context.all$.take(1)
       .flatMap(ctx => {
 
         // Clone the request and update the url with 2sxc params.

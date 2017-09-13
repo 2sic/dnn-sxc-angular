@@ -21,12 +21,12 @@ export class Context {
     private sxcInstance: SxcInstance;
     private contextSubject = new ReplaySubject<ContextInfo>();
 
-    all = this.contextSubject.asObservable();
-    moduleId = this.midSubject.asObservable();
-    tabId = this.tidSubject.asObservable();
-    contentBlockId = this.cbIdSubject.asObservable();
-    antiForgeryToken = this.afTokenSubject.asObservable();
-    sxc = this.sxcSubject.asObservable();
+    all$ = this.contextSubject.asObservable();
+    moduleId$ = this.midSubject.asObservable();
+    tabId$ = this.tidSubject.asObservable();
+    contentBlockId$ = this.cbIdSubject.asObservable();
+    antiForgeryToken$ = this.afTokenSubject.asObservable();
+    sxc$ = this.sxcSubject.asObservable();
 
     constructor(
         @Optional() private devSettings: DevContext
@@ -42,7 +42,7 @@ export class Context {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
 
-        Observable.combineLatest(this.moduleId, this.tabId, this.contentBlockId, this.sxc, this.antiForgeryToken)
+        Observable.combineLatest(this.moduleId$, this.tabId$, this.contentBlockId$, this.sxc$, this.antiForgeryToken$)
             .subscribe(res => this.contextSubject.next(<ContextInfo>{
                 moduleId: res[0],
                 tabId: res[1],
@@ -118,4 +118,3 @@ export class Context {
         this.afTokenSubject.next(this.devSettings.antiForgeryToken);
     }
 }
-// export class DnnAngular extends SxcAngular { };
