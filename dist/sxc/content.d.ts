@@ -4,6 +4,7 @@ export declare class Content<T> {
     private http;
     private contentType;
     constructor(http: HttpClient, contentType: string);
-    get(id?: number): Observable<T[]>;
+    get(): Observable<T[]>;
+    get(id: number): Observable<T>;
     post(id: number, data: any): Observable<T>;
 }

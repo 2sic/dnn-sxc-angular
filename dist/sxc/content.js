@@ -10,6 +10,7 @@ var Content = /** @class */ (function () {
         var url = "app/auto/content/" + this.contentType;
         if (id) {
             url += "/" + id;
+            return this.http.get(url);
         }
         return this.http.get(url);
     };

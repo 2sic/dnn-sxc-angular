@@ -1,12 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-export declare class Query<T> {
+export declare class Api<T> {
     private http;
-    private name;
-    constructor(http: HttpClient, name: string);
+    private controller;
+    constructor(http: HttpClient, controller: string);
     /**
      * will retrieve a 2sxc query
      * remember to set the permissions on the query, so it can be accessed by the group you want
      */
-    get(params?: HttpParams): Observable<T>;
+    get(method: string, params?: HttpParams): Observable<T>;
 }
