@@ -65,3 +65,7 @@ Again you can compare it with the example from the [Angular Directory App](https
 
 ## Internal Notes
 * read [npm instructions](npm-instructions) to see how to publish a release
+
+## Todo
+* create simple app-api access
+* enhance the content-manager to provide write commands (ATM read-only)

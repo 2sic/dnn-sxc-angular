@@ -9,10 +9,13 @@ export class Content<T> {
     private contentType: string,
   ) { }
 
-  get(id: number = null): Observable<T[]> {
+  get(): Observable<T[]>;
+  get(id: number): Observable<T>
+  get(id: number = null): Observable<T[]> | Observable<T> {
     let url = `app/auto/content/${this.contentType}`;
     if (id) {
       url += `/${id}`;
+      return this.http.get<T>(url);
     }
 
     return this.http.get<T[]>(url);
