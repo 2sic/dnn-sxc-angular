@@ -19,14 +19,26 @@ export class Context {
     private afTokenSubject = new ReplaySubject<string>();
     private sxcSubject = new ReplaySubject<SxcInstance>();
     private sxcInstance: SxcInstance;
-    private contextSubject = new ReplaySubject<ContextInfo>();
 
-    all$ = this.contextSubject.asObservable();
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
     contentBlockId$ = this.cbIdSubject.asObservable();
     antiForgeryToken$ = this.afTokenSubject.asObservable();
     sxc$ = this.sxcSubject.asObservable();
+
+    all$ = Observable.combineLatest(
+        this.moduleId$,             // wait for module id
+        this.tabId$,                // wait for tabId
+        this.contentBlockId$,       // wait for content-block id
+        this.sxc$,                  // wait for sxc instance
+        this.antiForgeryToken$)     // wait for security token
+        .map(res => <ContextInfo>{  // then merge streams
+            moduleId: res[0],
+            tabId: res[1],
+            contentBlockId: res[2],
+            sxc: res[3],
+            antiForgeryToken: res[4]
+        });
 
     constructor(
         @Optional() private devSettings: DevContext
@@ -42,14 +54,21 @@ export class Context {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
 
-        Observable.combineLatest(this.moduleId$, this.tabId$, this.contentBlockId$, this.sxc$, this.antiForgeryToken$)
-            .subscribe(res => this.contextSubject.next(<ContextInfo>{
-                moduleId: res[0],
-                tabId: res[1],
-                contentBlockId: res[2],
-                sxc: res[3],
-                antiForgeryToken: res[4]
-            }));
+        console.log('new all$');
+        
+        // Observable.combineLatest(
+        //     this.moduleId$, 
+        //     this.tabId$, 
+        //     this.contentBlockId$, 
+        //     this.sxc$, 
+        //     this.antiForgeryToken$)
+        //     .subscribe(res => this.contextSubject.next(<ContextInfo>{
+        //         moduleId: res[0],
+        //         tabId: res[1],
+        //         contentBlockId: res[2],
+        //         sxc: res[3],
+        //         antiForgeryToken: res[4]
+        //     }));
     }
 
     /**
