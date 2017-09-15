@@ -10,10 +10,12 @@
     "@angular/common": ">=4.3.0",
     "@angular/core": ">=4.3.0",
     "@angular/http": ">=4.3.0",
-    "rxjs": ">=5.4.0"
+    "rxjs": ">=5.4.0",
+    "@2sic.com/2sxc-typings": "git+https://github.com/2sic/2sxc-typings.git"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
+    "npm-install-peers": "^1.2.0-rc.1",
     "tslint-config-airbnb": "^5.2.1"
   },
   "directories": {},
@@ -35,5 +37,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
-  "typings": "index.d.ts"
+  "typings": "index.d.ts",
+  "dependencies": {
+    "@2sic.com/2sxc-typings": "git+https://github.com/2sic/2sxc-typings.git",
+    "@angular/common": "^4.3.6",
+    "@angular/core": "^4.3.6",
+    "@angular/http": "^4.3.6",
+    "rxjs": "^5.4.3"
+  }
 }

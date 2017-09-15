@@ -7,24 +7,26 @@ import 'rxjs/Rx';
 import { SxcInstance } from "../interfaces/sxc-instance";
 import { DevContext as DevContext } from "./dev-context";
 import { ContextInfo } from "./context-info";
+import "@2sic.com/2sxc-typings";
 
 declare const window: any;
 
 @Injectable()
 export class Context {
-    private globSxc: any;
-    private midSubject = new ReplaySubject<number>();
-    private tidSubject = new ReplaySubject<number>();
-    private cbIdSubject = new ReplaySubject<number>();
-    private afTokenSubject = new ReplaySubject<string>();
-    private sxcSubject = new ReplaySubject<SxcInstance>();
-    private sxcInstance: SxcInstance;
+    private globSxc: SxcController;
+    // todo: probably should set the replay-buffer to 1 for all the following, but must test!
+    private midSubject = new ReplaySubject<number>(1);
+    private tidSubject = new ReplaySubject<number>(1);
+    private cbIdSubject = new ReplaySubject<number>(1);
+    private afTokenSubject = new ReplaySubject<string>(1);
+    private sxcSubject = new ReplaySubject<SxcInstance>(1);
 
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
     contentBlockId$ = this.cbIdSubject.asObservable();
     antiForgeryToken$ = this.afTokenSubject.asObservable();
     sxc$ = this.sxcSubject.asObservable();
+    sxcController$: Observable<any>;
 
     all$ = Observable.combineLatest(
         this.moduleId$,             // wait for module id
@@ -53,22 +55,8 @@ export class Context {
         if (this.globSxc === undefined && !devSettings.ignoreMissing$2sxc) {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
-
-        console.log('new all$');
         
-        // Observable.combineLatest(
-        //     this.moduleId$, 
-        //     this.tabId$, 
-        //     this.contentBlockId$, 
-        //     this.sxc$, 
-        //     this.antiForgeryToken$)
-        //     .subscribe(res => this.contextSubject.next(<ContextInfo>{
-        //         moduleId: res[0],
-        //         tabId: res[1],
-        //         contentBlockId: res[2],
-        //         sxc: res[3],
-        //         antiForgeryToken: res[4]
-        //     }));
+        this.sxcController$ = Observable.from(this.globSxc);
     }
 
     /**
@@ -77,12 +65,8 @@ export class Context {
      */
     autoConfigure(htmlNode: ElementRef) {
 
-        // No global $2sxc found.
+        // No global $2sxc found - and no error was raised at the constructor
         if (!this.globSxc) {
-            if (!this.devSettings.ignoreMissing$2sxc) {
-                throw new Error('cannot autoConfigure - missing $2sxc which helps auto-detect the module - make sure you include 2sxc.min.js');
-            }
-
             // just provide dev/debug settings
             this.midSubject.next(this.devSettings.moduleId);
             this.tidSubject.next(this.devSettings.tabId);
@@ -90,7 +74,7 @@ export class Context {
             return;
         }
 
-        const sxc = this.sxcInstance = <SxcInstance>this.globSxc(htmlNode.nativeElement);
+        const sxc = <SxcInstance>this.globSxc(htmlNode.nativeElement);
         if (sxc === undefined || sxc === null) {
             throw new Error('couldn\'t get sxc instance - reason unknown');
         }
@@ -109,7 +93,7 @@ export class Context {
                 .subscribe(x => {
 
                     // This must be accessed after a delay, as the SF is not ready yet.
-                    const sf = window.$.ServicesFramework(this.sxcInstance.id);
+                    const sf = window.$.ServicesFramework(/* this.sxcInstance */ sxc.id);
 
                     // Check if sf is initialized.
                     if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
