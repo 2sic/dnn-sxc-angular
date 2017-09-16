@@ -10,8 +10,7 @@
     "@angular/common": ">=4.3.0",
     "@angular/core": ">=4.3.0",
     "@angular/http": ">=4.3.0",
-    "rxjs": ">=5.4.0",
-    "@2sic.com/2sxc-typings": "git+https://github.com/2sic/2sxc-typings.git"
+    "rxjs": ">=5.4.0"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
@@ -25,7 +24,7 @@
   "main": "index.ts",
   "maintainers": [],
   "optionalDependencies": {},
-  "readme": "readme",
+  "readme": "Connect DNN / DotNetNuke and 2sxc to Angular 4/5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2sic/dnn-sxc-angular.git"
@@ -33,16 +32,17 @@
   "scripts": {
     "build:main": "tsc index.ts -d",
     "copy:dist": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\" -w",
-    "copy:2dm": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
+    "copy:2dm": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
   "typings": "index.d.ts",
   "dependencies": {
-    "@2sic.com/2sxc-typings": "git+https://github.com/2sic/2sxc-typings.git",
+    "@2sic.com/2sxc-typings": "^9.0.0",
     "@angular/common": "^4.3.6",
     "@angular/core": "^4.3.6",
     "@angular/http": "^4.3.6",
+    "@angular/platform-browser": "^4.4.1",
     "rxjs": "^5.4.3"
   }
 }

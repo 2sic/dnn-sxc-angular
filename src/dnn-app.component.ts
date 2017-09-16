@@ -9,7 +9,7 @@ import { ElementRef } from '@angular/core';
  * This is the earliest moment we can access the ElementRef, because before that 
  * it's not attached to the DOM, so auto-detect wouldn't work.
  */
-export class AppComponent {
+export class DnnAppComponent {
   /**
    * 
    * @param element the angular ElementRef - required to auto-detect moduleId and more

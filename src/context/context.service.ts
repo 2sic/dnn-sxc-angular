@@ -26,7 +26,7 @@ export class Context {
     contentBlockId$ = this.cbIdSubject.asObservable();
     antiForgeryToken$ = this.afTokenSubject.asObservable();
     sxc$ = this.sxcSubject.asObservable();
-    sxcController$: Observable<any>;
+    sxcController$: Observable<SxcController>;
 
     all$ = Observable.combineLatest(
         this.moduleId$,             // wait for module id
@@ -51,12 +51,12 @@ export class Context {
             ignoreMissingServicesFramework: false
         }, devSettings);
 
-        this.globSxc = <any>window.$2sxc;
+        this.globSxc = <SxcController>window.$2sxc;
         if (this.globSxc === undefined && !devSettings.ignoreMissing$2sxc) {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
         
-        this.sxcController$ = Observable.from(this.globSxc);
+        this.sxcController$ = Observable.from(this.globSxc as any); // must cast to any, otherwise I get strange typscript errors :(
     }
 
     /**
