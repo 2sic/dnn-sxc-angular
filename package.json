@@ -38,7 +38,7 @@
   },
   "typings": "index.d.ts",
   "dependencies": {
-    "@2sic.com/2sxc-typings": "^9.0.0",
+    "@2sic.com/2sxc-typings": "git+https://github.com/2sic/2sxc-typings.git#test",
     "@angular/common": "^4.3.6",
     "@angular/core": "^4.3.6",
     "@angular/http": "^4.3.6",
