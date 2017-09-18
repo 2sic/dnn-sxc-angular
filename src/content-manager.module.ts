@@ -11,6 +11,7 @@ import { SxcToolbarDirective } from './beta/edit';
   providers: [
     Context,
     Data,
-  ]
+  ],
+  exports: [SxcToolbarDirective]
 })
 export class ContentManagerModule { }
