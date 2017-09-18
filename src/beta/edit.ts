@@ -11,11 +11,9 @@ import '@2sic.com/2sxc-typings';
 })
 export class SxcToolbarDirective implements OnInit {
     @Input() entityId: number;
-    @Input() toolbar: any;
-    @Input() settings: any;
-    // toolbar: SafeHtml;
+    @Input() toolbar: any = {};
+    @Input() settings: any = {};
     constructor(
-        private renderer: Renderer,
         private elementRef: ElementRef,
         private context: Context) { }
 
@@ -23,12 +21,10 @@ export class SxcToolbarDirective implements OnInit {
         this.context.sxc$.subscribe(sxcSimple  => {
             const sxc = sxcSimple as SxcInstanceWithEditing;
             if (!sxc.manage) return;    // edit not available, probably not logged in
-            this.setHtml(sxc.manage.getToolbar(this.toolbar, { hover: 'left' }));
+            this.setHtml(sxc.manage.getToolbar(this.toolbar, this.settings));
         });
 
     }
-
-
 
     setHtml(html:string){
         this.elementRef.nativeElement.innerHTML = html;
