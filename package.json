@@ -17,13 +17,11 @@
     "npm-install-peers": "^1.2.0-rc.1",
     "tslint-config-airbnb": "^5.2.1"
   },
-  "directories": {},
   "gitHead": "08eb8fc3226c22f147609bffd9d7090c26a48f7e",
   "homepage": "https://github.com/2sic/dnn-sxc-angular#readme",
   "license": "MIT",
   "main": "dist/index.js",
-  "maintainers": [],
-  "optionalDependencies": {},
+  "types": "dist/index.d.ts",
   "readme": "Connect DNN / DotNetNuke and 2sxc to Angular 4/5",
   "repository": {
     "type": "git",
@@ -36,5 +34,4 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
-  "types": "dist/index.d.ts"
 }
