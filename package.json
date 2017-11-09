@@ -7,10 +7,10 @@
   },
   "_noteAboutPeerDependencies": "we need these as 'peers', so that they are not installed when someone uses the package",
   "peerDependencies": {
-    "@angular/common": ">=4.3.0",
-    "@angular/core": ">=4.3.0",
-    "@angular/http": ">=4.3.0",
-    "rxjs": ">=5.4.0"
+    "@angular/common": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/http": "^5.0.0",
+    "rxjs": "^5.5.2"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
@@ -34,4 +34,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
+  "dependencies": {
+    "@2sic.com/2sxc-typings": "^9.0.1",
+    "@angular/common": "^5.0.1",
+    "@angular/core": "^5.0.1",
+    "@angular/http": "^5.0.1",
+    "@angular/platform-browser": "^5.0.1",
+    "rxjs": "^5.5.2"
+  }
 }

@@ -1,9 +1,16 @@
-import { Directive, Input, Component, ElementRef, Renderer, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    Directive,
+    ElementRef,
+    Input,
+    OnChanges,
+    OnInit,
+    Renderer,
+    SimpleChanges
+    } from '@angular/core';
+import { Context } from '../context/context.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Context } from '../context/context.service'
-
 import '@2sic.com/2sxc-typings';
-
 
 @Directive({
     // tslint:disable-next-line:directive-selector

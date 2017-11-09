@@ -1,13 +1,13 @@
-import { ElementRef, Optional, Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ContextInfo } from './context-info';
+import { DevContext as DevContext } from './dev-context';
+import { ElementRef, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { SxcInstance } from '../interfaces/sxc-instance';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
-import { SxcInstance } from "../interfaces/sxc-instance";
-import { DevContext as DevContext } from "./dev-context";
-import { ContextInfo } from "./context-info";
-import "@2sic.com/2sxc-typings";
+import '@2sic.com/2sxc-typings';
 
 declare const window: any;
 
