@@ -21,7 +21,7 @@
   "gitHead": "08eb8fc3226c22f147609bffd9d7090c26a48f7e",
   "homepage": "https://github.com/2sic/dnn-sxc-angular#readme",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "maintainers": [],
   "optionalDependencies": {},
   "readme": "Connect DNN / DotNetNuke and 2sxc to Angular 4/5",
@@ -36,8 +36,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
   },
-  "typings": "index.d.ts",
-  "dependencies": {
-    "@2sic.com/2sxc-typings": "^9.0.1"
-  }
+  "types": "dist/index.d.ts"
 }
