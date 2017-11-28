@@ -3,11 +3,11 @@ import { DevContext as DevContext } from './dev-context';
 import { ElementRef, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { SxcController } from '@2sic.com/2sxc-typings';
 import { SxcInstance } from '../interfaces/sxc-instance';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
-import '@2sic.com/2sxc-typings';
 
 declare const window: any;
 
