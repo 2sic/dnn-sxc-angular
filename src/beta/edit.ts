@@ -1,3 +1,4 @@
+import { Context } from '../context/context.service';
 import {
     Component,
     Directive,
@@ -5,35 +6,26 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Renderer,
-    SimpleChanges
-    } from '@angular/core';
-import { Context } from '../context/context.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import '@2sic.com/2sxc-typings';
+} from '@angular/core';
 
 @Directive({
-    // tslint:disable-next-line:directive-selector
-    selector: 'sxc-toolbar'
+  selector: 'sxc-toolbar'
 })
 export class SxcToolbarDirective implements OnInit {
-    @Input() entityId: number;
-    @Input() toolbar: any = {};
-    @Input() settings: any = {};
-    constructor(
-        private elementRef: ElementRef,
-        private context: Context) { }
+  @Input() entityId: number;
+  @Input() toolbar: any = {};
+  @Input() settings: any = {};
+  constructor(private elementRef: ElementRef, private context: Context) {}
 
-    ngOnInit() {
-        this.context.sxc$.subscribe(sxcSimple  => {
-            const sxc = sxcSimple as SxcInstanceWithEditing;
-            if (!sxc.manage) return;    // edit not available, probably not logged in
-            this.setHtml(sxc.manage.getToolbar(this.toolbar, this.settings));
-        });
+  ngOnInit() {
+    this.context.sxc$.subscribe(sxcSimple => {
+      const sxc = sxcSimple as SxcInstanceWithEditing;
+      if (!sxc.manage) return; // edit not available, probably not logged in
+      this.setHtml(sxc.manage.getToolbar(this.toolbar, this.settings));
+    });
+  }
 
-    }
-
-    setHtml(html:string){
-        this.elementRef.nativeElement.innerHTML = html;
-    }
+  setHtml(html: string) {
+    this.elementRef.nativeElement.innerHTML = html;
+  }
 }
