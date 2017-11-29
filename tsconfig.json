@@ -15,7 +15,7 @@
             "scripthost",
             "es2017.object"
         ],
-        "typings": [
+        "typeRoots": [
             "node_modules/@2sic.com"
         ]
     },
