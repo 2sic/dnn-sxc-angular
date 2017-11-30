@@ -44,8 +44,9 @@ export class Context {
     constructor(
         @Optional() private devSettings: DevContext
     ) {
+
         // Dev settings with minimal ignore settings.
-        devSettings = Object.assign({}, {
+        this.devSettings = Object.assign({}, {
             ignoreMissing$2sxc: false,
             ignoreMissingServicesFramework: false
         }, devSettings);

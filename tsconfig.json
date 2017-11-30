@@ -2,11 +2,15 @@
     "compileOnSave": true,
     "compilerOptions": {
         "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "declaration": true,
         "sourceMap": false,
         "noImplicitAny": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "skipLibCheck": true,
         "outDir": "./dist",
         "lib": [
             "dom",

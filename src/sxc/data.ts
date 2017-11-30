@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { Api } from './api';
 import { Content } from './content';
-import { Query } from './query';
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs/Rx";
-import { HttpParams } from "@angular/common/http";
-import { Api } from "./api";
+import { Observable } from 'rxjs/Rx';
+import { Query } from './query';
 
 /**
  * 2sxc data provider
