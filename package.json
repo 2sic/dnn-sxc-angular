@@ -15,9 +15,14 @@
     "rxjs": "^5.5.2"
   },
   "devDependencies": {
+    "@angular/compiler": "^5.2.8",
+    "@angular/compiler-cli": "^5.2.8",
     "cpx": "^1.5.0",
     "npm-install-peers": "^1.2.0-rc.1",
-    "tslint-config-airbnb": "^5.2.1"
+    "rollup": "^0.56.5",
+    "tslint-config-airbnb": "^5.2.1",
+    "typescript": "^2.7.2",
+    "uglify-js": "^3.3.13"
   },
   "gitHead": "08eb8fc3226c22f147609bffd9d7090c26a48f7e",
   "homepage": "https://github.com/2sic/dnn-sxc-angular#readme",
@@ -30,7 +35,7 @@
     "url": "git+https://github.com/2sic/dnn-sxc-angular.git"
   },
   "scripts": {
-    "build:main": "tsc index.ts -d",
+    "build:main": "ngc",
     "copy:dist": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\" -w",
     "copy:2dm": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
     "test": "echo \"Error: no test specified\" && exit 1",
