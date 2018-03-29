@@ -7,6 +7,7 @@ import {
     OnChanges,
     OnInit,
 } from '@angular/core';
+import { SxcInstanceWithEditing } from '@2sic.com/2sxc-typings';
 
 @Directive({
   selector: 'sxc-toolbar'

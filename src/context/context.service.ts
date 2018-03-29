@@ -7,6 +7,7 @@ import { SxcInstance } from '../interfaces/sxc-instance';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/timer';
 import 'rxjs/Rx';
+import { SxcController } from '@2sic.com/2sxc-typings';
 
 declare const window: any;
 
