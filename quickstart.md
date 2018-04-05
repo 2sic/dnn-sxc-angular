@@ -1,9 +1,9 @@
-This guide will help you to create a new 2sxc app with Angular 5. Before you start, make sure you have installed 2sxc 9+. This guide assumes you have already used 2sxc and know how to add apps, views and content types. If this is not the case, please start with a [guide to create your own app?].
+This guide will help you to create a new 2sxc app with Angular 5. It assumes you have already used 2sxc and know how to add apps, views and content types. If this is not the case, please start with a [guide to create your own app?]. Before you start, make sure you have installed 2sxc 9+.
 
 ## Prepare basic Angular app
 1. Navigate to `/Portals/0/2sxc` (depending of your portal root folder, replace the portal path) and follow the [quickstart guide of Angular](https://angular.io/guide/quickstart) which will create a directory with the angular app contents.
 
-1. Run npm install "@2sic.com/dnn-sxc-angular" to add the dnn-sxc-angular connector
+1. Run `npm install "@2sic.com/dnn-sxc-angular"` to add the dnn-sxc-angular connector
 
 1. Open `package.json` and configure the npm run scripts. Remove the line "build" and add the following lines:
     ```json
@@ -13,7 +13,7 @@ This guide will help you to create a new 2sxc app with Angular 5. Before you sta
     This will allow you to use `npm run build` to create a production build and `npm run watch` while developing. It also makes sure the file names do not contain hashes and that the angular compiler will create the same files (with different content though) for production and development builds. This makes it easier to include the files in a 2sxc template.
 
 ## Register and prepare app in 2sxc
-1. Create a new 2sxc app from the App module in DNN. To ensure the app will place its files in the same directory, use the same app name as in step 1. Place the app on a page.
+1. Create a new 2sxc app from the App module in DNN. To ensure the app will place its files in the same directory, use the same app name as for the angular app. Place the app on a page.
 
 1. Create a content type named `Person` which we will access later from our angular app. Add a string field `Name` and create a sample entity / record.
 
@@ -44,28 +44,28 @@ This guide will help you to create a new 2sxc app with Angular 5. Before you sta
     import { Observable } from 'rxjs';
 
     @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+        styleUrls: ['./app.component.css']
     })
     export class AppComponent extends DnnAppComponent implements OnInit {
-    persons: Observable<Person[]>;
-    constructor(
-        el: ElementRef,
-        context: Context,
-        private data: Data,
-    ) {
-        super(el, context);
-    }
+        persons: Observable<Person[]>;
+        constructor(
+            el: ElementRef,
+            context: Context,
+            private data: Data,
+        ) {
+            super(el, context);
+        }
 
-    ngOnInit() {
-        this.persons = this.data.content<Person>('person').get();
-    }
-    title = 'app';
+        ngOnInit() {
+            this.persons = this.data.content<Person>('person').get();
+        }
+        title = 'app';
     }
 
     class Person {
-    Name: string;
+        Name: string;
     }
     ```
 
@@ -85,21 +85,20 @@ This guide will help you to create a new 2sxc app with Angular 5. Before you sta
 
     import { AppComponent } from './app.component';
 
-
     @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpClientModule
-    ],
-    providers: [
-        DnnInterceptor,
-        Context,
-        Data
-    ],
-    bootstrap: [AppComponent]
+        declarations: [
+            AppComponent
+        ],
+        imports: [
+            BrowserModule,
+            HttpClientModule
+        ],
+        providers: [
+            DnnInterceptor,
+            Context,
+            Data
+        ],
+        bootstrap: [AppComponent]
     })
     export class AppModule { }
 
