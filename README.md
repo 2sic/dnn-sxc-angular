@@ -13,7 +13,7 @@ It uses observables to make it happen, thereby avoiding timing / async problems 
 ## How to get this package
 It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm install:
 
-* `npm install -d @2sic.com/dnn-sxc-angular`
+* `npm install -d "@2sic.com/dnn-sxc-angular"`
 
 ## How To Use
 ### Setup
