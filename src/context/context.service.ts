@@ -55,7 +55,7 @@ export class Context {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
         
-        this.sxcController$ = from(this.globSxc as any); // must cast to any, otherwise I get strange typscript errors :(
+        this.sxcController$ = from([this.globSxc]); // must cast to any, otherwise I get strange typscript errors :(
     }
 
     /**

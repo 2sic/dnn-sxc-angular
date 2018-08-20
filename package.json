@@ -5,7 +5,6 @@
   "bugs": {
     "url": "https://github.com/2sic/dnn-sxc-angular/issues"
   },
-  "_noteAboutPeerDependencies": "we need these as 'peers', so that they are not installed when someone uses the package",
   "dependencies": {
     "@2sic.com/2sxc-typings": "^9.0.3",
     "@angular-devkit/schematics": "^0.7.4",
@@ -31,7 +30,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "readme": "Connect DNN / DotNetNuke and 2sxc to Angular 4/5",
+  "readme": "Connect DNN / DotNetNuke and 2sxc to Angular 6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2sic/dnn-sxc-angular.git"
@@ -42,6 +41,5 @@
     "copy:2dm": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "tsc -watch"
-  },
-  "peerDependencies": {}
+  }
 }
