@@ -9,7 +9,9 @@ import { map, take } from 'rxjs/operators';
 
 declare const window: any;
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class Context {
     private globSxc: SxcController;
     // todo: probably should set the replay-buffer to 1 for all the following, but must test!

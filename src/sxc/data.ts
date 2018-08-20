@@ -11,7 +11,9 @@ import { Query } from './query';
  * gives you access to content and query streams using the content$ and query$ commands
  * you can also use the content and query managers, but these are currently not so useful
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Data {
   constructor(
     private http: HttpClient,

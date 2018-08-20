@@ -5,5 +5,5 @@ import { Interceptor } from './interceptor';
 export const DnnInterceptor: Provider = {
   provide: HTTP_INTERCEPTORS,
   useClass: Interceptor,
-  multi: true,
+  multi: true
 };
