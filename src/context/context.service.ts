@@ -1,13 +1,11 @@
 import { ContextInfo } from './context-info';
 import { DevContext as DevContext } from './dev-context';
 import { ElementRef, Injectable, Optional } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable, combineLatest, from, timer } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { SxcInstance } from '../interfaces/sxc-instance';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/timer';
-import 'rxjs/Rx';
 import { SxcController } from '@2sic.com/2sxc-typings';
+import { map, take } from 'rxjs/operators';
 
 declare const window: any;
 
@@ -28,19 +26,19 @@ export class Context {
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
 
-    all$ = Observable.combineLatest(
+    all$ = combineLatest(
         this.moduleId$,             // wait for module id
         this.tabId$,                // wait for tabId
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$)     // wait for security token
-        .map(res => <ContextInfo>{  // then merge streams
+        .pipe(map(res => <ContextInfo>{  // then merge streams
             moduleId: res[0],
             tabId: res[1],
             contentBlockId: res[2],
             sxc: res[3],
             antiForgeryToken: res[4]
-        });
+        }));
 
     constructor(
         @Optional() private devSettings: DevContext
@@ -57,7 +55,7 @@ export class Context {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
         
-        this.sxcController$ = Observable.from(this.globSxc as any); // must cast to any, otherwise I get strange typscript errors :(
+        this.sxcController$ = from(this.globSxc as any); // must cast to any, otherwise I get strange typscript errors :(
     }
 
     /**
@@ -89,8 +87,8 @@ export class Context {
         if (window.$ && window.$.ServicesFramework) {
  
             // Run timer till sf is ready, but max for a second.
-            const timer = Observable.timer(0, 100)
-                .take(10)
+            const t = timer(0, 100)
+                .pipe(take(10))
                 .subscribe(x => {
 
                     // This must be accessed after a delay, as the SF is not ready yet.
@@ -98,7 +96,7 @@ export class Context {
 
                     // Check if sf is initialized.
                     if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
-                        timer.unsubscribe();
+                        t.unsubscribe();
 
                         this.tidSubject.next(sf.getTabId());
                         this.afTokenSubject.next(sf.getAntiForgeryValue());
