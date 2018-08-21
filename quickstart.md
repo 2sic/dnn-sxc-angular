@@ -69,9 +69,9 @@ The app is now able to use 2sxc services and data.
 
 1. In the content type list, you can [define permissions](https://2sxc.org/en/Learn/Permissions) by clicking the user icon. In this example, we want the content type to be accessible anonymously. Grant `Read` permission to the access level `SecurityAccessLevel.View`.
 
-1. We will add a component that displays the list of people. Create a folder `/src/app/person` and add the two files `person-list.component.ts` and `person.component.ts` to it. (TODO: Links)
+1. We will add a component that displays the list of people. Create a folder `/src/app/person` and add the two files `person-list.component.ts` and `person.component.ts` to it; get them from the [sample app](https://github.com/2sic/app-dnn-sxc-angular-dev/tree/master/src/app/person).
 
-1. Open `app.component.html` and add the following code to the end:
+1. Open `app.component.html` and add the following code:
     ```html
     <person-list></person-list>
     ```
