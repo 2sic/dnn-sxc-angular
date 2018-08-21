@@ -1,6 +1,8 @@
 This guide will help you to create a new 2sxc app with Angular 5. It assumes you have already used 2sxc and know how to add apps, views and content types. If this is not the case, please start with a [guide to create your own app?]. Before you start, make sure you have installed 2sxc 9+.
 The guide was tested with Angular CLI 6.1.4; the files may differ for later versions.
 
+Instead of following this guide you can download the prepared 2sxc sample app here: https://github.com/2sic/app-dnn-sxc-angular-dev
+
 ## Prepare basic Angular app
 1. Navigate to `/Portals/0/2sxc` (depending of your portal root folder, replace the portal path) and follow the [quickstart guide of Angular](https://angular.io/guide/quickstart) which will create a directory with the angular app contents.
 
@@ -97,7 +99,7 @@ If you run `npm run build` or just `ng build`, Angular builds in development mod
 Open `angular.json` and change the configuration of the production build:
 1. Set `outputHashing` to `none`
 1. Set `sourceMap` to `true`
-1. Set `vendorChunk`to `true`
+1. Set `vendorChunk` to `true`
 
 Run `ng build --prod` to build in production mode.
 
