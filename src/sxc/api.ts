@@ -12,11 +12,18 @@ export class Api<T> {
   }
 
   /**
-   * will retrieve a 2sxc query
-   * remember to set the permissions on the query, so it can be accessed by the group you want
+   * will call a 2sxc api controller method
    */
   get(method: string, params?: HttpParams): Observable<T> {
     let url = `app/auto/api/${this.controller}/${method}`;
     return this.http.get<T>(url, { params });
+  }
+
+  /**
+   * will post to a 2sxc api controller method
+   */
+  post(method: string, body: any, params?: HttpParams): Observable<T> {
+    let url = `app/auto/api/${this.controller}/${method}`;
+    return this.http.post<T>(url, body, { params });
   }
 }
