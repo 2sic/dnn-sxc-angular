@@ -3,7 +3,7 @@ import { Content } from './content';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Query } from './query';
 
 /**
@@ -11,7 +11,9 @@ import { Query } from './query';
  * gives you access to content and query streams using the content$ and query$ commands
  * you can also use the content and query managers, but these are currently not so useful
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Data {
   constructor(
     private http: HttpClient,

@@ -11,59 +11,13 @@ This is a helper system which
 It uses observables to make it happen, thereby avoiding timing / async problems common in this scenario. 
 
 ## How to get this package
-It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm install:
+It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm:
 
-* `npm install -d @2sic.com/dnn-sxc-angular`
+* `npm install "@2sic.com/dnn-sxc-angular" --save`
 
 ## How To Use
 ### Setup
-The following instructions help you get started, but it's best to also look at a real app using this - like the [Angular Directory App](https://github.com/2sic/app-directory-angular/).
-
-Make sure your application uses the Http Interceptor by adding the important providers to app.module.ts, so you'll need to add:
-
-```typescript
-import { DnnSxcModule } from '@2sic.com/dnn-sxc-angular'
-```  
-
-and this module to the @NgModule - here's an example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.module.ts), yours will look a bit different.
-
-```typescript
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    DnnSxcModule,     // DnnSxc module ensures all connectors are available
-    HttpClientModule, // important - this changed in Angular 4.3
-    BrowserModule,    // the following are just examples
-    FormsModule,
-    DirectoryModule,
-    RouterModule.forRoot(appRoutes)
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
-Now, make sure initializations happen, by changing your app.component.ts from
-
-```typescript
-export class AppComponent {...}
-```  
-to  
-
-```typescript
-export class AppComponent extends DnnAppComponent {
-  constructor(
-    element: ElementRef,
-    context: Context,
-  ) {
-    super(element, context);
-  }
-}
-```
-
-You can compare it with the example from the [Angular Directory App](https://github.com/2sic/app-directory-angular/blob/master/src/app/app.component.ts). That's it!
+Follow the [quickstart guide](https://github.com/2sic/dnn-sxc-angular/blob/master/quickstart.md) to start using dnn-sxc-angular.
 
 ### Using WebAPIs inside DNN
 This will now work automatically, because all headers etc. are now automatically added by the system. 

@@ -1,10 +1,10 @@
 import { ContextInfo } from '../context/context-info';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs";
 import { Context } from "../context/context.service";
-import { Subject } from 'rxjs/Subject';
 import { HttpHeaders } from '@angular/common/http';
+import { take, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -13,8 +13,8 @@ export class Interceptor implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.context.all$.take(1)
-      .flatMap(ctx => {
+    return this.context.all$.pipe(take(1))
+      .pipe(mergeMap(ctx => {
 
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({
@@ -29,6 +29,6 @@ export class Interceptor implements HttpInterceptor {
         });
 
         return next.handle(newReq);
-      });
+      }));
   }
 }
