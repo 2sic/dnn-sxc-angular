@@ -5,7 +5,7 @@ import { Observable, combineLatest, from, timer } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { SxcInstance } from '../interfaces/sxc-instance';
 import { SxcController } from '@2sic.com/2sxc-typings';
-import { map, take } from 'rxjs/operators';
+import { map, take, last } from 'rxjs/operators';
 
 declare const window: any;
 
@@ -87,12 +87,14 @@ export class Context {
 
         // Check if DNN Services framework exists.
         if (window.$ && window.$.ServicesFramework) {
- 
-            // Run timer till sf is ready, but max for a second.
-            const t = timer(0, 100)
-                .pipe(take(10))
-                .subscribe(x => {
+            const tries = 30;
+            const interval = 100;
 
+            // Run timer till sf is ready, but max for three seconds.
+            const t = timer(0, interval)
+                .pipe(take(tries))
+                .subscribe(x => {
+                    
                     // This must be accessed after a delay, as the SF is not ready yet.
                     const sf = window.$.ServicesFramework(/* this.sxcInstance */ sxc.id);
 
@@ -107,8 +109,13 @@ export class Context {
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
                             window.dnn.vars = null;
                         }
+                        
+                        // If we've reached the end of the timer sequence, polling did likely not succeeed
+                        if(x == tries - 1) console.log("Polling for $.ServicesFramework did not succeed after 3 seconds.");
+
                     }
                 });
+            
             return;
         }
 
