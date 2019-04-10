@@ -20,6 +20,7 @@ export class Context {
     private cbIdSubject = new ReplaySubject<number>(1);
     private afTokenSubject = new ReplaySubject<string>(1);
     private sxcSubject = new ReplaySubject<SxcInstance>(1);
+    private devContextSubject = new ReplaySubject<DevContext>(1);
 
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
@@ -27,19 +28,24 @@ export class Context {
     antiForgeryToken$ = this.afTokenSubject.asObservable();
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
+    devContext$ = this.devContextSubject.asObservable();
 
     all$ = combineLatest(
         this.moduleId$,             // wait for module id
         this.tabId$,                // wait for tabId
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
-        this.antiForgeryToken$)     // wait for security token
+        this.antiForgeryToken$,
+        this.devContext$)     // wait for security token
         .pipe(map(res => <ContextInfo>{  // then merge streams
             moduleId: res[0],
             tabId: res[1],
             contentBlockId: res[2],
             sxc: res[3],
-            antiForgeryToken: res[4]
+            antiForgeryToken: res[4],
+            path: res[5].path,
+            disableHeaders: res[5].disableHeaders,
+            appNameInPath: res[5].appNameInPath
         }));
 
     constructor(
@@ -65,28 +71,29 @@ export class Context {
      * @param htmlNode the HTMLNode
      */
     autoConfigure(htmlNode: ElementRef) {
-
-        // No global $2sxc found - and no error was raised at the constructor
-        if (!this.globSxc) {
-            // just provide dev/debug settings
-            this.midSubject.next(this.devSettings.moduleId);
-            this.tidSubject.next(this.devSettings.tabId);
-            this.cbIdSubject.next(0);
-            return;
+        this.devContextSubject.next(this.devSettings);
+        var settings = {...this.devSettings};
+        
+        if(!settings.moduleId) {
+            const sxc = settings.sxc ? settings.sxc : <SxcInstance>this.globSxc(htmlNode.nativeElement);
+            if (sxc === undefined || sxc === null) {
+                throw new Error('couldn\'t get sxc instance - reason unknown');
+            }
+            
+            settings = {
+                sxc: sxc,
+                moduleId: sxc.id,
+                contentBlockId: sxc.cbid,
+                ...settings
+            }
         }
 
-        const sxc = <SxcInstance>this.globSxc(htmlNode.nativeElement);
-        if (sxc === undefined || sxc === null) {
-            throw new Error('couldn\'t get sxc instance - reason unknown');
-        }
-
-        // Update / publish moduleId.
-        this.midSubject.next(sxc.id);
-        this.cbIdSubject.next(sxc.cbid);
-        this.sxcSubject.next(sxc);
+        this.midSubject.next(settings.moduleId);
+        this.cbIdSubject.next(settings.contentBlockId ? settings.contentBlockId : settings.moduleId);
+        this.sxcSubject.next(settings.sxc);
 
         // Check if DNN Services framework exists.
-        if (window.$ && window.$.ServicesFramework) {
+        if (!settings.tabId && window.$ && window.$.ServicesFramework) {
             const tries = 30;
             const interval = 100;
 
@@ -96,14 +103,14 @@ export class Context {
                 .subscribe(x => {
                     
                     // This must be accessed after a delay, as the SF is not ready yet.
-                    const sf = window.$.ServicesFramework(/* this.sxcInstance */ sxc.id);
+                    const sf = window.$.ServicesFramework(/* this.sxcInstance */ settings.moduleId);
 
                     // Check if sf is initialized.
                     if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
                         t.unsubscribe();
 
                         this.tidSubject.next(sf.getTabId());
-                        this.afTokenSubject.next(sf.getAntiForgeryValue());
+                        this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
                     } else {
                         // Must reset, as they are incorrectly initialized when accessed early.
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
@@ -125,7 +132,8 @@ export class Context {
                 Either set devSettings to ignore this, or ensure it\'s there`);
         }
 
-        this.tidSubject.next(this.devSettings.tabId);
-        this.afTokenSubject.next(this.devSettings.antiForgeryToken);
+        // If Services Framework is not needed, provide values directly
+        this.tidSubject.next(settings.tabId);
+        this.afTokenSubject.next(settings.antiForgeryToken);
     }
 }

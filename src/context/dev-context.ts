@@ -7,13 +7,14 @@ import { Injectable } from '@angular/core';
 export class DevContext implements ContextInfo {
     ignoreMissing$2sxc = false;
     ignoreMissingServicesFramework = false;
-    forceUse: boolean = false;
+    disableHeaders = false;
 
     moduleId: number = 0;
     tabId: number = 0;
 
     contentBlockId: number;
     antiForgeryToken: 'ThisIsaTestAntiForgeryToken';
-    sxc: null;
+    sxc: any;
     path: string = '/';
+    appNameInPath: string = ""
 }

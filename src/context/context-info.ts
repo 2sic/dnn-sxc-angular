@@ -32,4 +32,21 @@ export class ContextInfo {
    * the helper sxc-object to communicate with the server
    */
   sxc: SxcInstance;
+
+  /**
+   * If true, does not append any custom headers to DNN requests
+   */
+  disableHeaders: boolean;
+
+  /**
+   * Replace app name in path; replaces /app/auto/
+  */
+  appNameInPath: string;
+
+  /**
+   * Overrides the base path for 2sxc requests (used to develop locally and send requests to a remote 2sxc installation)
+   * Requires CORS configuration on the target server
+   * e.g. http://example.com/app-dnn-sxc-angular-dev/DesktopModules/2sxc/API/
+   */
+  path: string;
 }

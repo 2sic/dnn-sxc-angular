@@ -13,17 +13,26 @@ export class Interceptor implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
     return this.context.all$.pipe(take(1))
       .pipe(mergeMap(ctx => {
+        var url = req.url;
+        if(ctx.sxc)
+          url = ctx.sxc.resolveServiceUrl(req.url);
+        else if(!["//", "http://", "https://", "/"].find((s) => url.toLowerCase().startsWith(s)))
+          url = ctx.path + url;
+        
+        if(ctx.appNameInPath)
+          url = url.replace('/app/auto/', `/app/${ctx.appNameInPath}/`);
 
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({
-          url: ctx.sxc.resolveServiceUrl(req.url),
-          setHeaders: {
+          url: url,
+          setHeaders: ctx.disableHeaders ? {} : {
             ModuleId: ctx.moduleId.toString(),
             TabId: ctx.tabId.toString(),
             ContentBlockId: ctx.contentBlockId.toString(),
-            RequestVerificationToken: ctx.antiForgeryToken,
+            RequestVerificationToken: ctx.antiForgeryToken ? ctx.antiForgeryToken : "",
             'X-Debugging-Hint': 'bootstrapped by Sxc4Angular',
           },
         });
