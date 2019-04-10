@@ -28,7 +28,7 @@ export class DnnAppComponent {
     if(!enableDefaultSubmit){
       // console.log("dnn-sxc-angular - will prevent enter-buttons from causing submit")
       element.nativeElement.addEventListener('keydown', function(e: any) {
-        if(e.keyCode==13)
+        if(e.target.tagName.toLowerCase() == "input" && e.keyCode==13)
           e.preventDefault();
       });
   
