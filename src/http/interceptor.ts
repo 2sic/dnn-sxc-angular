@@ -28,13 +28,12 @@ export class Interceptor implements HttpInterceptor {
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({
           url: url,
-          setHeaders: ctx.disableHeaders ? {} : {
+          setHeaders: ctx.addDnnHeaders ? {
             ModuleId: ctx.moduleId.toString(),
             TabId: ctx.tabId.toString(),
             ContentBlockId: ctx.contentBlockId.toString(),
-            RequestVerificationToken: ctx.antiForgeryToken ? ctx.antiForgeryToken : "",
-            'X-Debugging-Hint': 'bootstrapped by Sxc4Angular',
-          },
+            RequestVerificationToken: ctx.antiForgeryToken ? ctx.antiForgeryToken : ""
+          } : {},
         });
 
         return next.handle(newReq);

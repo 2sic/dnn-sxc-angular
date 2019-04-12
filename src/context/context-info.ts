@@ -34,9 +34,9 @@ export class ContextInfo {
   sxc: SxcInstance;
 
   /**
-   * If true, does not append any custom headers to DNN requests
+   * If false, does not append any custom headers to DNN requests
    */
-  disableHeaders: boolean;
+  addDnnHeaders: boolean;
 
   /**
    * Replace app name in path; replaces /app/auto/

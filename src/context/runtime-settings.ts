@@ -4,10 +4,10 @@ import { ContextInfo } from './context-info';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class DevContext implements ContextInfo {
+export class RuntimeSettings implements ContextInfo {
     ignoreMissing$2sxc = false;
     ignoreMissingServicesFramework = false;
-    disableHeaders = false;
+    addDnnHeaders = true;
 
     moduleId: number = 0;
     tabId: number = 0;

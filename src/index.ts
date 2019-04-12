@@ -1,7 +1,7 @@
 export { DnnSxcModule } from "./dnn-sxc.module";
 export { ContentManagerModule } from "./content-manager.module";
 export { DnnAppComponent } from './dnn-app.component'
-export { DevContext } from './context/dev-context';
+export { RuntimeSettings } from './context/runtime-settings';
 export { Context } from './context/context.service';
 
 export { Data } from './sxc/data';

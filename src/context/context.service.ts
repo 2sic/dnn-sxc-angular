@@ -1,5 +1,5 @@
 import { ContextInfo } from './context-info';
-import { DevContext as DevContext } from './dev-context';
+import { RuntimeSettings } from './runtime-settings';
 import { ElementRef, Injectable, Optional } from '@angular/core';
 import { Observable, combineLatest, from, timer } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
@@ -20,7 +20,7 @@ export class Context {
     private cbIdSubject = new ReplaySubject<number>(1);
     private afTokenSubject = new ReplaySubject<string>(1);
     private sxcSubject = new ReplaySubject<SxcInstance>(1);
-    private devContextSubject = new ReplaySubject<DevContext>(1);
+    private runtimeSettingsSubject = new ReplaySubject<RuntimeSettings>(1);
 
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
@@ -28,7 +28,7 @@ export class Context {
     antiForgeryToken$ = this.afTokenSubject.asObservable();
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
-    devContext$ = this.devContextSubject.asObservable();
+    runtimeSettings$ = this.runtimeSettingsSubject.asObservable();
 
     all$ = combineLatest(
         this.moduleId$,             // wait for module id
@@ -36,7 +36,7 @@ export class Context {
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$,
-        this.devContext$)     // wait for security token
+        this.runtimeSettings$)     // wait for security token
         .pipe(map(res => <ContextInfo>{  // then merge streams
             moduleId: res[0],
             tabId: res[1],
@@ -44,22 +44,23 @@ export class Context {
             sxc: res[3],
             antiForgeryToken: res[4],
             path: res[5].path,
-            disableHeaders: res[5].disableHeaders,
+            addDnnHeaders: res[5].addDnnHeaders,
             appNameInPath: res[5].appNameInPath
         }));
 
     constructor(
-        @Optional() private devSettings: DevContext
+        @Optional() private runtimeSettings: RuntimeSettings
     ) {
 
         // Dev settings with minimal ignore settings.
-        this.devSettings = Object.assign({}, {
+        this.runtimeSettings = Object.assign({}, {
             ignoreMissing$2sxc: false,
-            ignoreMissingServicesFramework: false
-        }, devSettings);
+            ignoreMissingServicesFramework: false,
+            addDnnHeaders: true
+        }, runtimeSettings);
 
         this.globSxc = <SxcController>window.$2sxc;
-        if (this.globSxc === undefined && !devSettings.ignoreMissing$2sxc) {
+        if (this.globSxc === undefined && !runtimeSettings.ignoreMissing$2sxc) {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
         
@@ -71,8 +72,8 @@ export class Context {
      * @param htmlNode the HTMLNode
      */
     autoConfigure(htmlNode: ElementRef) {
-        this.devContextSubject.next(this.devSettings);
-        var settings = {...this.devSettings};
+        this.runtimeSettingsSubject.next(this.runtimeSettings);
+        var settings = {...this.runtimeSettings};
         
         if(!settings.moduleId) {
             const sxc = settings.sxc ? settings.sxc : <SxcInstance>this.globSxc(htmlNode.nativeElement);
@@ -126,10 +127,10 @@ export class Context {
             return;
         }
 
-        if (!this.devSettings.ignoreMissingServicesFramework) {
+        if (!this.runtimeSettings.ignoreMissingServicesFramework) {
             throw new Error(`
-                DNN Services Framework is missing, and it\'s not allowed according to devSettings.
-                Either set devSettings to ignore this, or ensure it\'s there`);
+                DNN Services Framework is missing, and it\'s not allowed according to runtimeSettings.
+                Either set runtimeSettings to ignore this, or ensure it\'s there`);
         }
 
         // If Services Framework is not needed, provide values directly
