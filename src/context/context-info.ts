@@ -49,4 +49,9 @@ export class ContextInfo {
    * e.g. http://example.com/app-dnn-sxc-angular-dev/DesktopModules/2sxc/API/
    */
   path: string;
+
+  /**
+   * Sets the withCredentials option in HTTP requests (this allows to perform authenticated CORS requests)
+   */
+  withCredentials: boolean;
 }

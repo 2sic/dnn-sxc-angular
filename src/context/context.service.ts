@@ -45,7 +45,8 @@ export class Context {
             antiForgeryToken: res[4],
             path: res[5].path,
             addDnnHeaders: res[5].addDnnHeaders,
-            appNameInPath: res[5].appNameInPath
+            appNameInPath: res[5].appNameInPath,
+            withCredentials: res[5].withCredentials
         }));
 
     constructor(

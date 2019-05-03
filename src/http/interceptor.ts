@@ -28,6 +28,7 @@ export class Interceptor implements HttpInterceptor {
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({
           url: url,
+          withCredentials: ctx.withCredentials,
           setHeaders: ctx.addDnnHeaders ? {
             ModuleId: ctx.moduleId.toString(),
             TabId: ctx.tabId.toString(),

@@ -16,5 +16,6 @@ export class RuntimeSettings implements ContextInfo {
     antiForgeryToken: 'ThisIsaTestAntiForgeryToken';
     sxc: any;
     path: string = '/';
-    appNameInPath: string = ""
+    appNameInPath: string = "";
+    withCredentials = false;
 }
