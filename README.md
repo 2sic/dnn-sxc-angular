@@ -1,27 +1,28 @@
-# dnn-sxc-angular
-Connector for Angular 6 / 7 ([git](https://github.com/angular/angular) | [web](https://angular.io/)) for developers using
-1. the open source platform DNN 7+ ([git](https://github.com/dnnsoftware/Dnn.Platform) | [web](http://dnnsoftware.com/)) 
-1. and/or the open source CMS 2sxc 7+ ([git](https://github.com/2sic/2sxc/) | [web](https://2sxc.org/)) 
+# dnn-sxc-angular - Connecting Angular to DNN and/or 2sxc
 
-This is a helper system which
+Connector for [Angular 6 / 7](https://angular.io/)) for developers who use...
+1. ...the open source platform DNN 7+ ([git](https://github.com/dnnsoftware/Dnn.Platform) | [web](http://dnnsoftware.com/)) 
+1. ...and/or the open source CMS 2sxc 7+ ([git](https://github.com/2sic/2sxc/) | [web](https://2sxc.org/)) 
+
+This is a helper which
+
 1. automatically provides all dnn-parameters (module ID, security token, etc.) to Angular
 2. adds an Http Interceptor for the HttpClient which automatically applies these parameters to all requests
 3. prevents the enter-key from causing DNN form submits (optional, you can override this)
 
-It uses observables to make it happen, thereby avoiding timing / async problems common in this scenario. 
-
-## How to get this package
-It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm:
-
-* `npm install "@2sic.com/dnn-sxc-angular" --save`
+It uses **observables** to make it happen, thereby avoiding timing / async problems common in this scenario. 
 
 ## Setup
+
+It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular), so the most common way is to get it using npm with 
+`npm install "@2sic.com/dnn-sxc-angular" --save`. 
 
 1. Follow the [quickstart guide](https://azing.org/2sxc/r/9qdbjvl_) to start using dnn-sxc-angular.
 1. To develop locally using `ng serve` follow [these instructions](https://azing.org/2sxc/r/VLo7GwRo)
 
-## Using DNN or 2sxc WebAPIs
-This will now work automatically, because all headers etc. are now automatically added by the system. 
+## Access DNN or 2sxc WebAPIs
+
+This works automatically, because all headers etc. are automatically added by dnn-sxc-angular. 
 
 ## Using 2sxc Content-Items, Queries and APIs
 This package contains a `Data` object, which provides 3 observable streams
