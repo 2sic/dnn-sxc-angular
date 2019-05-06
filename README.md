@@ -1,12 +1,12 @@
 # dnn-sxc-angular
-Connector for angular 4.3+ ([git](https://github.com/angular/angular) | [web](https://angular.io/)) if you're using
+Connector for angular 6+ ([git](https://github.com/angular/angular) | [web](https://angular.io/)) for developers using
 1. the open source platform DNN 7+ ([git](https://github.com/dnnsoftware/Dnn.Platform) | [web](http://dnnsoftware.com/)) 
 1. and/or the open source CMS 2sxc 7+ ([git](https://github.com/2sic/2sxc/) | [web](https://2sxc.org/)) 
 
 This is a helper system which
 1. automatically provides all important dnn-parameters (module ID, security token, etc.) to angular
 2. adds an Http Interceptor for the HttpClient which automatically applies these parameters to all requests
-3. prevents the enter-key from causing DNN form submits (you can override this)
+3. prevents the enter-key from causing DNN form submits (optional, you can override this)
 
 It uses observables to make it happen, thereby avoiding timing / async problems common in this scenario. 
 
@@ -17,7 +17,7 @@ It's published on [npm](https://www.npmjs.com/package/@2sic.com/dnn-sxc-angular)
 
 ## How To Use
 ### Setup
-Follow the [quickstart guide](https://github.com/2sic/dnn-sxc-angular/blob/master/quickstart.md) to start using dnn-sxc-angular.
+Follow the [quickstart guide](https://azing.org/2sxc/r/9qdbjvl_) to start using dnn-sxc-angular.
 
 ### Using WebAPIs inside DNN
 This will now work automatically, because all headers etc. are now automatically added by the system. 
@@ -41,8 +41,7 @@ There is a `Context` object which provides these properties as streams (observab
 
 
 ## Internal Notes
-* read [npm instructions](npm-instructions) to see how to publish a release
+* read [npm instructions](https://azing.org/2sxc/r/ItPxPh9D) to see how to publish a release
 
 ## Todo
-* create & test simple app-api access
 * enhance the content-manager to provide write commands (ATM read-only)
