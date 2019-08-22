@@ -75,7 +75,7 @@ export class Context {
     autoConfigure(htmlNode: ElementRef) {
         this.runtimeSettingsSubject.next(this.runtimeSettings);
         var settings = {...this.runtimeSettings};
-        
+
         if(!settings.moduleId) {
             const sxc = settings.sxc ? settings.sxc : <SxcInstance>this.globSxc(htmlNode.nativeElement);
             if (sxc === undefined || sxc === null) {
@@ -92,7 +92,6 @@ export class Context {
 
         this.midSubject.next(settings.moduleId);
         this.cbIdSubject.next(settings.contentBlockId ? settings.contentBlockId : settings.moduleId);
-        this.sxcSubject.next(settings.sxc);
 
         // Check if DNN Services framework exists.
         if (!settings.tabId && window.$ && window.$.ServicesFramework) {
@@ -113,6 +112,15 @@ export class Context {
 
                         this.tidSubject.next(sf.getTabId());
                         this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
+
+                        // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
+                        // sxc has already been accessed. To circumvent this, we need to recreate the sxc.
+                        
+                        //settings.sxc = settings.sxc.recreate(); <-- does not work
+                        settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
+
+                        // Provide sxc after sf has been initialized because it also depends on it
+                        this.sxcSubject.next(settings.sxc);
                     } else {
                         // Must reset, as they are incorrectly initialized when accessed early.
                         if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
@@ -137,5 +145,6 @@ export class Context {
         // If Services Framework is not needed, provide values directly
         this.tidSubject.next(settings.tabId);
         this.afTokenSubject.next(settings.antiForgeryToken);
+        this.sxcSubject.next(settings.sxc);
     }
 }
