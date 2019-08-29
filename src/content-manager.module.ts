@@ -4,18 +4,20 @@ import { Data } from './sxc/data';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { SxcToolbarDirective } from './beta/edit';
+import { SxcTagToolbarDirective } from './beta/tag-toolbar';
 
 @NgModule({
   imports: [
     HttpClientModule
   ],
   declarations: [
-    SxcToolbarDirective
+    SxcToolbarDirective,
+    SxcTagToolbarDirective
   ],
   providers: [
     Context,
     Data,
   ],
-  exports: [SxcToolbarDirective]
+  exports: [SxcToolbarDirective, SxcTagToolbarDirective]
 })
 export class ContentManagerModule { }
