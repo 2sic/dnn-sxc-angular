@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export class Query<T> {
   constructor(
@@ -9,12 +10,41 @@ export class Query<T> {
     private name: string
   ) { }
 
+  readonly streamParamKey = 'stream'
+  readonly defaultStreamName = 'Default'
+
   /**
    * will retrieve a 2sxc query
    * remember to set the permissions on the query, so it can be accessed by the group you want
    */
-  get(params?: HttpParams): Observable<T> {
-    let url = `app/auto/query/${this.name}`;
-    return this.http.get<T>(url, { params });
+  get(params?: HttpParams, streams?: string | string[]): Observable<T> {
+    if(streams === undefined)
+      streams = [this.defaultStreamName]
+    if(typeof streams === 'string')
+      streams = streams.split(',')
+    if(streams)
+      params = this.setStreamParam(params, streams)
+    
+    let url = `app/auto/query/${this.name}`
+    let observable = this.http.get<any>(url, { params })
+
+    // If only one stream is requested, directly return the stream in the returned observable
+    if(streams && streams.length === 1)
+      observable = observable.pipe(map(queryResult => queryResult[streams[0]]))
+
+    return observable;
   }
+
+  /**
+   * Returns either the existing or a new HttpParams object, with the stream parameter appended.
+   * @param params the HttpParams which might be undefined or null
+   * @param streams the array of streams which will be appended to the HttpParams object
+   */
+  private setStreamParam(params: HttpParams, streams: string[]): HttpParams {
+    if(!params)
+      params = new HttpParams()
+    params = params.set(this.streamParamKey, streams.join(','))
+    return params
+  }
+
 }

@@ -5,6 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Query } from './query';
+import { QueryConstruction } from '../interfaces/query-construction'
 
 /**
  * 2sxc data provider
@@ -56,11 +57,17 @@ export class Data {
    * @param params optional parameters-object
    * @returns a typed observable which will give you the query
    */
-  public query$<T>(name: string, params?: HttpParams): Observable<T> {
-    return new Query<T>(this.http, name).get(params);
+  public query$<T>(name: string, params?: HttpParams): Observable<T>;
+  public query$<T>({ name, params, streams }: QueryConstruction): Observable<T>;
+  public query$<T>(param1: any, param2?: HttpParams) {
+    if(typeof param1 === 'object') {
+      const { name, params, streams } = <QueryConstruction>param1;
+      return new Query<T>(this.http, name).get(params, streams);
+    }
+    else {
+      return new Query<T>(this.http, param1).get(param2);
+    }
   }
-
-
   
   /**
    * get an api object to then start api-calls
