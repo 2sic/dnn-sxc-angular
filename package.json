@@ -9,6 +9,8 @@
     "dsa-build:main": "ngc",
     "dsa-copy:dist": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\" -w",
     "dsa-copy:2dm": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
+    "dsa-copy:template-ng8": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-template-angular8/ng/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
+
     "dsa-test": "echo \"Error: no test specified\" && exit 1",
     "dsa-develop": "tsc -watch"
   },
