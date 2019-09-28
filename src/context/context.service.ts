@@ -1,7 +1,7 @@
 import { ContextInfo } from './context-info';
 import { RuntimeSettings } from './runtime-settings';
 import { ElementRef, Injectable, Optional } from '@angular/core';
-import { Observable, combineLatest, from, timer } from 'rxjs';
+import { Observable, combineLatest, from, timer, BehaviorSubject } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { SxcInstance } from '../interfaces/sxc-instance';
 import { SxcController } from '@2sic.com/2sxc-typings';
@@ -22,6 +22,7 @@ export class Context {
     private sxcSubject = new ReplaySubject<SxcInstance>(1);
     private runtimeSettingsSubject = new ReplaySubject<RuntimeSettings>(1);
 
+
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
     contentBlockId$ = this.cbIdSubject.asObservable();
@@ -29,6 +30,8 @@ export class Context {
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
     runtimeSettings$ = this.runtimeSettingsSubject.asObservable();
+    edition$ = new BehaviorSubject<string>(null);
+    apiEdition$ = new BehaviorSubject<string>(null);
 
     all$ = combineLatest(
         this.moduleId$,             // wait for module id
@@ -73,6 +76,7 @@ export class Context {
      * @param htmlNode the HTMLNode
      */
     autoConfigure(htmlNode: ElementRef) {
+        this.getContextFromAppTag(htmlNode);
         this.runtimeSettingsSubject.next(this.runtimeSettings);
         var settings = {...this.runtimeSettings};
 
@@ -146,5 +150,16 @@ export class Context {
         this.tidSubject.next(settings.tabId);
         this.afTokenSubject.next(settings.antiForgeryToken);
         this.sxcSubject.next(settings.sxc);
+    }
+
+    private getContextFromAppTag(el: ElementRef) {
+        const natEl = el.nativeElement;
+        const edition = natEl.getAttribute('edition');
+        if(edition)
+            this.edition$.next(edition);
+        const apiEdition = natEl.getAttribute('apiEdition');
+        if(apiEdition)
+            this.apiEdition$.next(apiEdition);
+        console.log('edition', {edition});
     }
 }

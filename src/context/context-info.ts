@@ -54,4 +54,15 @@ export class ContextInfo {
    * Sets the withCredentials option in HTTP requests (this allows to perform authenticated CORS requests)
    */
   withCredentials: boolean;
+
+  /**
+   * the edition of the current app - if you are working with polymorph editions
+   */
+  edition: string;
+
+  /**
+   * the edition to be used in the api
+   * usually it's the same as the edition, but in same cases you may want to use another edition, especially when developing
+   */
+  apiEdition: string;
 }

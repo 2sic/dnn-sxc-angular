@@ -18,4 +18,6 @@ export class RuntimeSettings implements ContextInfo {
     path: string = '/';
     appNameInPath: string = "";
     withCredentials = false;
+    edition: string = null;
+    apiEdition: string = null;
 }
