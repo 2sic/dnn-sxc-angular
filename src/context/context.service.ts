@@ -16,6 +16,9 @@ const runtimeDefaults: Partial<RuntimeSettings> = {
     addDnnHeaders: true
 };
 
+const asyncInitAttempts = 30;
+const asyncInitAttemptInterval = 100;
+
 @Injectable({
     providedIn: 'root',
 })
@@ -46,18 +49,22 @@ export class Context {
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$,     // wait for security token
+        // this.edition$.asObservable(),
+        // this.apiEdition$,
         this.runtimeSettings$,
         // then merge streams
-        (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, settings) => <ContextInfo> {
-            moduleId,
-            tabId,
-            contentBlockId,
-            sxc,
-            antiForgeryToken,
+        (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, /* edition, apiEdition,*/ settings) => <ContextInfo> {
+            moduleId: moduleId,
+            tabId: tabId,
+            contentBlockId:contentBlockId,
+            sxc:sxc,
+            antiForgeryToken:antiForgeryToken,
             path: settings.path,
             addDnnHeaders: settings.addDnnHeaders,
             appNameInPath: settings.appNameInPath,
             withCredentials: settings.withCredentials,
+            edition: 'test',
+            apiEdition: null,
         });
 
     constructor(
@@ -65,6 +72,7 @@ export class Context {
     ) {
         // Dev settings with default ignore settings unless specified
         this.runtimeSettings = Object.assign({}, runtimeDefaults, runtimeSettings);
+        this.runtimeSettingsSubject.next(this.runtimeSettings);
 
         this.globSxc = <SxcController>window.$2sxc;
         if (this.globSxc === undefined && !this.runtimeSettings.ignoreMissing$2sxc) {
@@ -80,11 +88,10 @@ export class Context {
      */
     autoConfigure(htmlNode: ElementRef) {
         this.getContextFromAppTag(htmlNode);
-        this.runtimeSettingsSubject.next(this.runtimeSettings);
         var settings = {...this.runtimeSettings} as RuntimeSettings;
 
         if(!settings.moduleId) {
-            const sxc = settings.sxc ? settings.sxc : <SxcInstance>this.globSxc(htmlNode.nativeElement);
+            const sxc = settings.sxc || <SxcInstance>this.globSxc(htmlNode.nativeElement);
             if (sxc === undefined || sxc === null) {
                 throw new Error('couldn\'t get sxc instance - reason unknown');
             }
@@ -122,11 +129,9 @@ export class Context {
      * Try to initialize all properties which are not available initially
      */
     private tryToInitializeWithTimer(settings: RuntimeSettings) {
-        const tries = 30;
-        const interval = 100;
         // Run timer till sf is ready, but max for three seconds.
-        const t = timer(0, interval)
-            .pipe(take(tries))
+        const t = timer(0, asyncInitAttemptInterval)
+            .pipe(take(asyncInitAttempts))
             .subscribe(x => {
                 // This must be accessed after a delay, as the SF is not ready yet.
                 const sf = window.$.ServicesFramework(settings.moduleId);
@@ -141,7 +146,7 @@ export class Context {
                         window.dnn.vars = null;
                     }
                     // If we've reached the end of the timer sequence, polling did likely not succeeed
-                    if (x == tries - 1)
+                    if (x == asyncInitAttempts - 1)
                         console.log("Polling for $.ServicesFramework did not succeed after 3 seconds.");
                 }
             });
@@ -149,12 +154,15 @@ export class Context {
 
     private initFromWorkingDnnSf(sf: any, settings: RuntimeSettings) {
         this.tidSubject.next(sf.getTabId());
+
         // try to do this only if it's not already available!
         this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
+
         // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
         // sxc has already been accessed. To circumvent this, we need to recreate the sxc.
         // settings.sxc = settings.sxc.recreate(); <-- does not work
         settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
+
         // Provide sxc after sf has been initialized because it also depends on it
         this.sxcSubject.next(settings.sxc);
     }
