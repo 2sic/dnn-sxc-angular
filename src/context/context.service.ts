@@ -1,11 +1,12 @@
 import { ContextInfo } from './context-info';
 import { RuntimeSettings } from './runtime-settings';
 import { ElementRef, Injectable, Optional } from '@angular/core';
-import { Observable, combineLatest, from, timer, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, from, timer, BehaviorSubject, Subject } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { SxcInstance } from '../interfaces/sxc-instance';
 import { SxcController } from '@2sic.com/2sxc-typings';
-import { map, take, last } from 'rxjs/operators';
+import { map, take, last, tap, first } from 'rxjs/operators';
+import { appTag } from '../names';
 
 declare const window: any;
 
@@ -39,18 +40,19 @@ export class Context {
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$,
-        this.runtimeSettings$)     // wait for security token
-        .pipe(map(res => <ContextInfo>{  // then merge streams
-            moduleId: res[0],
-            tabId: res[1],
-            contentBlockId: res[2],
-            sxc: res[3],
-            antiForgeryToken: res[4],
-            path: res[5].path,
-            addDnnHeaders: res[5].addDnnHeaders,
-            appNameInPath: res[5].appNameInPath,
-            withCredentials: res[5].withCredentials
-        }));
+        this.runtimeSettings$, //)     // wait for security token
+        //.pipe(map(
+            (mid, tid, cbid, sxc, aft, runtime) => <ContextInfo>{  // then merge streams
+            moduleId: mid,// res[0],
+            tabId: tid,// res[1],
+            contentBlockId: cbid,// res[2],
+            sxc: sxc,// res[3],
+            antiForgeryToken: aft,// res[4],
+            path: runtime.path,// res[5].path,
+            addDnnHeaders: runtime.addDnnHeaders,// res[5].addDnnHeaders,
+            appNameInPath: runtime.appNameInPath,// res[5].appNameInPath,
+            withCredentials: runtime.withCredentials,// res[5].withCredentials
+        });
 
     constructor(
         @Optional() private runtimeSettings: RuntimeSettings
@@ -115,6 +117,8 @@ export class Context {
                         t.unsubscribe();
 
                         this.tidSubject.next(sf.getTabId());
+
+                        // try to do this only if it's not already available!
                         this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
 
                         // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
@@ -153,13 +157,23 @@ export class Context {
     }
 
     private getContextFromAppTag(el: ElementRef) {
-        const natEl = el.nativeElement;
-        const edition = natEl.getAttribute('edition');
-        if(edition)
-            this.edition$.next(edition);
-        const apiEdition = natEl.getAttribute('apiEdition');
-        if(apiEdition)
-            this.apiEdition$.next(apiEdition);
-        console.log('edition', {edition});
+        this.initFromAppTag(el, appTag.edition, this.edition$);
+        this.initFromAppTag(el, appTag.apiEdition, this.apiEdition$);
+        this.initFromAppTag(el, appTag.antiForgeryToken, this.afTokenSubject);
+        this.initFromAppTag(el, appTag.tabId, this.tidSubject);
+        this.initFromAppTag(el, appTag.moduleId, this.midSubject);
+        this.initFromAppTag(el, appTag.contentBlockId, this.cbIdSubject);
+
+        console.log('edition', this.edition$.value);
+        this.afTokenSubject.pipe(take(1), tap(x => console.log('aft', x))).subscribe();    
+
+    }
+
+    private initFromAppTag<T>(
+        el: ElementRef, 
+        attribute: string, 
+        target: Subject<T>) {
+        const value = el.nativeElement.getAttribute(attribute);
+        if(value) target.next(value);
     }
 }
