@@ -12,6 +12,12 @@
             "type": "npm",
             "script": "dsa-copy:template-ng8",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "dsa-build:main",
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }
