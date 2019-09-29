@@ -27,7 +27,7 @@ export class Context {
     moduleId$ = this.midSubject.asObservable();
     tabId$ = this.tidSubject.asObservable();
     contentBlockId$ = this.cbIdSubject.asObservable();
-    antiForgeryToken$ = this.afTokenSubject.asObservable();
+    antiForgeryToken$ = this.afTokenSubject.pipe(first());
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
     runtimeSettings$ = this.runtimeSettingsSubject.asObservable();
@@ -40,9 +40,8 @@ export class Context {
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$,
-        this.runtimeSettings$, //)     // wait for security token
-        //.pipe(map(
-            (mid, tid, cbid, sxc, aft, runtime) => <ContextInfo>{  // then merge streams
+        this.runtimeSettings$,      // wait for security token
+        (mid, tid, cbid, sxc, aft, runtime) => <ContextInfo>{  // then merge streams
             moduleId: mid,// res[0],
             tabId: tid,// res[1],
             contentBlockId: cbid,// res[2],
@@ -57,6 +56,8 @@ export class Context {
     constructor(
         @Optional() private runtimeSettings: RuntimeSettings
     ) {
+        // debug
+        // this.antiForgeryToken$.subscribe(aft => console.log('got new aft:', aft));
 
         // Dev settings with minimal ignore settings.
         this.runtimeSettings = Object.assign({}, {
@@ -80,7 +81,7 @@ export class Context {
     autoConfigure(htmlNode: ElementRef) {
         this.getContextFromAppTag(htmlNode);
         this.runtimeSettingsSubject.next(this.runtimeSettings);
-        var settings = {...this.runtimeSettings};
+        var settings = {...this.runtimeSettings} as RuntimeSettings;
 
         if(!settings.moduleId) {
             const sxc = settings.sxc ? settings.sxc : <SxcInstance>this.globSxc(htmlNode.nativeElement);
@@ -101,46 +102,7 @@ export class Context {
 
         // Check if DNN Services framework exists.
         if (!settings.tabId && window.$ && window.$.ServicesFramework) {
-            const tries = 30;
-            const interval = 100;
-
-            // Run timer till sf is ready, but max for three seconds.
-            const t = timer(0, interval)
-                .pipe(take(tries))
-                .subscribe(x => {
-                    
-                    // This must be accessed after a delay, as the SF is not ready yet.
-                    const sf = window.$.ServicesFramework(/* this.sxcInstance */ settings.moduleId);
-
-                    // Check if sf is initialized.
-                    if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
-                        t.unsubscribe();
-
-                        this.tidSubject.next(sf.getTabId());
-
-                        // try to do this only if it's not already available!
-                        this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
-
-                        // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
-                        // sxc has already been accessed. To circumvent this, we need to recreate the sxc.
-                        
-                        //settings.sxc = settings.sxc.recreate(); <-- does not work
-                        settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
-
-                        // Provide sxc after sf has been initialized because it also depends on it
-                        this.sxcSubject.next(settings.sxc);
-                    } else {
-                        // Must reset, as they are incorrectly initialized when accessed early.
-                        if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
-                            window.dnn.vars = null;
-                        }
-                        
-                        // If we've reached the end of the timer sequence, polling did likely not succeeed
-                        if(x == tries - 1) console.log("Polling for $.ServicesFramework did not succeed after 3 seconds.");
-
-                    }
-                });
-            
+            this.tryToInitializeWithTimer(settings);
             return;
         }
 
@@ -153,6 +115,44 @@ export class Context {
         // If Services Framework is not needed, provide values directly
         this.tidSubject.next(settings.tabId);
         this.afTokenSubject.next(settings.antiForgeryToken);
+        this.sxcSubject.next(settings.sxc);
+    }
+
+    private tryToInitializeWithTimer(settings: RuntimeSettings) {
+        const tries = 30;
+        const interval = 100;
+        // Run timer till sf is ready, but max for three seconds.
+        const t = timer(0, interval)
+            .pipe(take(tries))
+            .subscribe(x => {
+                // This must be accessed after a delay, as the SF is not ready yet.
+                const sf = window.$.ServicesFramework(settings.moduleId);
+                // Check if sf is initialized.
+                if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
+                    t.unsubscribe();
+                    this.initFromWorkingDnnSf(sf, settings);
+                }
+                else {
+                    // Must reset, as they are incorrectly initialized when accessed early.
+                    if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
+                        window.dnn.vars = null;
+                    }
+                    // If we've reached the end of the timer sequence, polling did likely not succeeed
+                    if (x == tries - 1)
+                        console.log("Polling for $.ServicesFramework did not succeed after 3 seconds.");
+                }
+            });
+    }
+
+    private initFromWorkingDnnSf(sf: any, settings: RuntimeSettings) {
+        this.tidSubject.next(sf.getTabId());
+        // try to do this only if it's not already available!
+        this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
+        // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
+        // sxc has already been accessed. To circumvent this, we need to recreate the sxc.
+        // settings.sxc = settings.sxc.recreate(); <-- does not work
+        settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
+        // Provide sxc after sf has been initialized because it also depends on it
         this.sxcSubject.next(settings.sxc);
     }
 
