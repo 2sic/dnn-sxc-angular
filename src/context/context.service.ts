@@ -49,11 +49,11 @@ export class Context {
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
         this.antiForgeryToken$,     // wait for security token
-        // this.edition$.asObservable(),
-        // this.apiEdition$,
+        this.edition$,
+        this.apiEdition$,
         this.runtimeSettings$,
         // then merge streams
-        (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, /* edition, apiEdition,*/ settings) => <ContextInfo> {
+        (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, edition, apiEdition, settings) => <ContextInfo> {
             moduleId: moduleId,
             tabId: tabId,
             contentBlockId:contentBlockId,
@@ -63,8 +63,8 @@ export class Context {
             addDnnHeaders: settings.addDnnHeaders,
             appNameInPath: settings.appNameInPath,
             withCredentials: settings.withCredentials,
-            edition: 'test',
-            apiEdition: null,
+            edition: edition,
+            apiEdition: apiEdition,
         });
 
     constructor(
