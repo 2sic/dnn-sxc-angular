@@ -10,6 +10,12 @@ import { appTag } from '../names';
 
 declare const window: any;
 
+const runtimeDefaults: Partial<RuntimeSettings> = {
+    ignoreMissing$2sxc: false,
+    ignoreMissingServicesFramework: false,
+    addDnnHeaders: true
+};
+
 @Injectable({
     providedIn: 'root',
 })
@@ -39,39 +45,33 @@ export class Context {
         this.tabId$,                // wait for tabId
         this.contentBlockId$,       // wait for content-block id
         this.sxc$,                  // wait for sxc instance
-        this.antiForgeryToken$,
-        this.runtimeSettings$,      // wait for security token
-        (mid, tid, cbid, sxc, aft, runtime) => <ContextInfo>{  // then merge streams
-            moduleId: mid,// res[0],
-            tabId: tid,// res[1],
-            contentBlockId: cbid,// res[2],
-            sxc: sxc,// res[3],
-            antiForgeryToken: aft,// res[4],
-            path: runtime.path,// res[5].path,
-            addDnnHeaders: runtime.addDnnHeaders,// res[5].addDnnHeaders,
-            appNameInPath: runtime.appNameInPath,// res[5].appNameInPath,
-            withCredentials: runtime.withCredentials,// res[5].withCredentials
+        this.antiForgeryToken$,     // wait for security token
+        this.runtimeSettings$,
+        // then merge streams
+        (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, settings) => <ContextInfo> {
+            moduleId,
+            tabId,
+            contentBlockId,
+            sxc,
+            antiForgeryToken,
+            path: settings.path,
+            addDnnHeaders: settings.addDnnHeaders,
+            appNameInPath: settings.appNameInPath,
+            withCredentials: settings.withCredentials,
         });
 
     constructor(
         @Optional() private runtimeSettings: RuntimeSettings
     ) {
-        // debug
-        // this.antiForgeryToken$.subscribe(aft => console.log('got new aft:', aft));
-
-        // Dev settings with minimal ignore settings.
-        this.runtimeSettings = Object.assign({}, {
-            ignoreMissing$2sxc: false,
-            ignoreMissingServicesFramework: false,
-            addDnnHeaders: true
-        }, runtimeSettings);
+        // Dev settings with default ignore settings unless specified
+        this.runtimeSettings = Object.assign({}, runtimeDefaults, runtimeSettings);
 
         this.globSxc = <SxcController>window.$2sxc;
-        if (this.globSxc === undefined && !runtimeSettings.ignoreMissing$2sxc) {
+        if (this.globSxc === undefined && !this.runtimeSettings.ignoreMissing$2sxc) {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
         
-        this.sxcController$ = from([this.globSxc]); // must cast to any, otherwise I get strange typscript errors :(
+        this.sxcController$ = from([this.globSxc]);
     }
 
     /**
@@ -118,6 +118,9 @@ export class Context {
         this.sxcSubject.next(settings.sxc);
     }
 
+    /**
+     * Try to initialize all properties which are not available initially
+     */
     private tryToInitializeWithTimer(settings: RuntimeSettings) {
         const tries = 30;
         const interval = 100;
