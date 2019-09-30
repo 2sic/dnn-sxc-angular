@@ -74,7 +74,7 @@ export class Context {
     constructor(
         @Optional() private runtimeSettings: RuntimeSettings
     ) {
-        // Dev settings with default ignore settings unless specified
+        // build settings with default ignore-settings and overrides from project
         this.runtimeSettings = Object.assign({}, runtimeDefaults, runtimeSettings);
         this.runtimeSettingsSubject.next(this.runtimeSettings);
 
