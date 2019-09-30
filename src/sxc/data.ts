@@ -35,9 +35,10 @@ export class Data {
    * @param contentType name of the content-type
    * @param id optional id of a single item
    */
-  content$<T>(contentType: string): Observable<T[]>;
-  content$<T>(contentType: string, id: number): Observable<T>
-  content$<T>(contentType: string, id: number = null): Observable<T[]> | Observable<T> {
+  content$<T>(contentType: string, id?: number): Observable<T> {
+    // When id is undefined, we would get back an Observable<T[]> instead of Observable<T>.
+    // Typescript does not take care of this; however we ignore it because we want the data
+    // service to always return an Observable of T.
     return new Content<T>(this.http, contentType).get(id);
   }
 
