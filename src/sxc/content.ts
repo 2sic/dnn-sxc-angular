@@ -1,18 +1,27 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { routeContent } from '../contants';
 
+/**
+ * A helper to access content from 2sxc
+ * @class Content
+ * @template T Type which the system will return
+ */
 export class Content<T> {
   constructor(
     private http: HttpClient,
     private contentType: string,
   ) { }
 
+  /** Get all items of this type */
   get(): Observable<T[]>;
-  get(id: number): Observable<T>
+
+  /** get the specific item with the ID */
+  get(id: number): Observable<T>;
+
+  /** internal implementation with/without ID */
   get(id: number = null): Observable<T[]> | Observable<T> {
-    let url = `app/auto/content/${this.contentType}`;
+    let url = `${routeContent}/${this.contentType}`;
     if (id) {
       url += `/${id}`;
       return this.http.get<T>(url);
@@ -21,7 +30,7 @@ export class Content<T> {
     return this.http.get<T[]>(url);
   }
 
-  post(id: number, data: any): Observable<T> {
+  post(): Observable<T> {
     throw new Error('not implemented yet');
   }
 }

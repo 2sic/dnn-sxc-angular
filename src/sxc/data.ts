@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Query } from './query';
-import { QueryConstruction } from '../interfaces/query-construction'
+import { QueryConstruction } from '../interfaces/query-construction';
 
 /**
  * 2sxc data provider
@@ -34,6 +34,7 @@ export class Data {
    * get a stream of content items or (if ID is provided) a stream containing one item
    * @param contentType name of the content-type
    * @param id optional id of a single item
+   * @returns an observable containing a single item (if ID is provided) or an array of these items
    */
   content$<T>(contentType: string, id?: number): Observable<T> {
     // When id is undefined, we would get back an Observable<T[]> instead of Observable<T>.
@@ -61,15 +62,15 @@ export class Data {
   public query$<T>(name: string, params?: HttpParams): Observable<T>;
   public query$<T>({ name, params, streams }: QueryConstruction): Observable<T>;
   public query$<T>(param1: any, param2?: HttpParams) {
-    if(typeof param1 === 'object') {
+    if (typeof param1 === 'object') {
       const { name, params, streams } = <QueryConstruction>param1;
       return new Query<T>(this.http, name).get(params, streams);
-    }
-    else {
+    } else {
       return new Query<T>(this.http, param1).get(param2);
     }
   }
-  
+
+
   /**
    * get an api object to then start api-calls
    * usually you'll be better off using the observable stream api$, this is included primarily for consistency in the api
@@ -88,13 +89,13 @@ export class Data {
    */
   public api$<T>(apiName: string, params?: HttpParams): Observable<T> {
     const separator = apiName.indexOf('/');
-    if(separator == -1)
-      throw `Trying to get api$ but only got '${apiName}' - expected something in the format of 'controller/method'`;
+    if (separator === -1) {
+      throw new Error(`Trying to get api$ but only got '${apiName}' - expected something in the format of 'controller/method'`);
+    }
 
-    let method = apiName.substr(separator + 1);
+    const method = apiName.substr(separator + 1);
     apiName = apiName.substr(0, separator);
 
     return new Api(this.http, apiName).get<T>(method, params);
   }
-  
 }

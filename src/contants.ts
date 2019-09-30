@@ -1,7 +1,11 @@
+import { query } from '@angular/core/src/render3/query';
 
 export const apiRouteName = 'api';
+export const contentRouteName = 'content';
+export const queryRouteName = 'query';
 
-export const appRouteAuto = 'app/auto/';
+export const routeRoot = 'app/auto/';
 
-export const apiRouteAuto = 'app/auto/' + apiRouteName + '/';
-
+export const routeApi = `${routeRoot}${apiRouteName}`;
+export const routeQuery = `${routeRoot}${queryRouteName}`;
+export const routeContent = `${routeRoot}${contentRouteName}`;
