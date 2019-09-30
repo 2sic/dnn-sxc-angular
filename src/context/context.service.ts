@@ -60,9 +60,9 @@ export class Context {
         (moduleId, tabId, contentBlockId, sxc, antiForgeryToken, edition, apiEdition, settings) => <ContextInfo> {
             moduleId: moduleId,
             tabId: tabId,
-            contentBlockId:contentBlockId,
-            sxc:sxc,
-            antiForgeryToken:antiForgeryToken,
+            contentBlockId: contentBlockId,
+            sxc: sxc,
+            antiForgeryToken: antiForgeryToken,
             path: settings.path,
             addDnnHeaders: settings.addDnnHeaders,
             appNameInPath: settings.appNameInPath,
@@ -82,7 +82,7 @@ export class Context {
         if (this.globSxc === undefined && !this.runtimeSettings.ignoreMissing$2sxc) {
             throw new Error('window.$2sxc is null - you probably forgot to include the script before loading angular');
         }
-        
+
         this.sxcController$ = from([this.globSxc]);
     }
 
@@ -92,20 +92,20 @@ export class Context {
      */
     autoConfigure(htmlNode: ElementRef) {
         this.getContextFromAppTag(htmlNode);
-        var settings = {...this.runtimeSettings} as RuntimeSettings;
+        let settings = {...this.runtimeSettings} as RuntimeSettings;
 
-        if(!settings.moduleId) {
+        if (!settings.moduleId) {
             const sxc = settings.sxc || <SxcInstance>this.globSxc(htmlNode.nativeElement);
             if (sxc === undefined || sxc === null) {
                 throw new Error('couldn\'t get sxc instance - reason unknown');
             }
-            
+
             settings = {
                 sxc: sxc,
                 moduleId: sxc.id,
                 contentBlockId: sxc.cbid,
                 ...settings
-            }
+            };
         }
 
         this.midSubject.next(settings.moduleId);
@@ -143,15 +143,15 @@ export class Context {
                 if (sf.getAntiForgeryValue() && sf.getTabId() !== -1) {
                     t.unsubscribe();
                     this.initFromWorkingDnnSf(sf, settings);
-                }
-                else {
+                } else {
                     // Must reset, as they are incorrectly initialized when accessed early.
                     if (window.dnn && window.dnn.vars && window.dnn.vars.length === 0) {
                         window.dnn.vars = null;
                     }
                     // If we've reached the end of the timer sequence, polling did likely not succeeed
-                    if (x == asyncInitAttempts - 1)
-                        console.log("Polling for $.ServicesFramework did not succeed after 3 seconds.");
+                    if (x === asyncInitAttempts - 1) {
+                        console.log('Polling for $.ServicesFramework did not succeed after 3 seconds.');
+                    }
                 }
             });
     }
@@ -165,7 +165,7 @@ export class Context {
         // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
         // sxc has already been accessed. To circumvent this, we need to re-attach the SF to sxc.
         // Important: settings.sxc = settings.sxc.recreate(); <-- does not work
-        settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
+        settings.sxc.serviceRoot = sf.getServiceRoot('2sxc'); // <-- works
 
         // Provide sxc after sf has been initialized because it also depends on it
         this.sxcSubject.next(settings.sxc);
@@ -188,16 +188,16 @@ export class Context {
 
         // Debugging - disable when working
         // console.log('edition', this.edition$.value);
-        // this.afTokenSubject.pipe(take(1), tap(x => console.log('aft', x))).subscribe();    
+        // this.afTokenSubject.pipe(take(1), tap(x => console.log('aft', x))).subscribe();
 
     }
 
     private initFromAppTag<T>(
-        el: ElementRef, 
-        attribute: string, 
+        el: ElementRef,
+        attribute: string,
         target: Subject<T>) {
             // todo: after upgrading to NG8, probably use el.GetAttribute
             const value = el.nativeElement.getAttribute(attribute);
-            if(value) target.next(value);
+            if (value) { target.next(value); }
     }
 }
