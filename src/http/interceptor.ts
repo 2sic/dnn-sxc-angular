@@ -3,10 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from "rxjs";
 import { Context } from "../context/context.service";
 import { take, mergeMap } from 'rxjs/operators';
-
-const appRoute = '/app/auto/';
-const appApi = 'api';
-const appApiRoute = appRoute + appApi + '/';
+import { appRouteAuto, apiRouteAuto, apiRouteName } from '../contants';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -27,10 +24,10 @@ export class Interceptor implements HttpInterceptor {
         // change to use api of an edition, if an edition was specified
         // but only do this on api-routes, the others don't support editions
         if(ctx.apiEdition)
-          url = url.replace(appApiRoute, appRoute + ctx.apiEdition + '/' + appApi + '/');
+          url = url.replace(apiRouteAuto, appRouteAuto + ctx.apiEdition + '/' + apiRouteName + '/');
         
         if(ctx.appNameInPath)
-          url = url.replace(appRoute, `/app/${ctx.appNameInPath}/`);
+          url = url.replace(appRouteAuto, `app/${ctx.appNameInPath}/`);
 
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({

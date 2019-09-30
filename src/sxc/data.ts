@@ -74,20 +74,27 @@ export class Data {
    * get an api object to then start api-calls
    * usually you'll be better off using the observable stream api$, this is included primarily for consistency in the api
    * @param controller the api controller
-   * @returns a query object with a .get()
+   * @returns an API object with a .get<T>()
    */
-  public api<T>(controller: string): Api<T> {
-    return new Api<T>(this.http, controller);
+  public api(controller: string): Api {
+    return new Api(this.http, controller);
   }
 
   /**
    * retrieve a api stream from the server
-   * @param name the method name
+   * @param apiName controller/method
    * @param params optional parameters-object
    * @returns a typed observable which will give you the query
    */
-  public api$<T>(name: string, params?: HttpParams): Observable<T> {
-    return new Api<T>(this.http, name).get(name, params);
+  public api$<T>(apiName: string, params?: HttpParams): Observable<T> {
+    const separator = apiName.indexOf('/');
+    if(separator == -1)
+      throw `Trying to get api$ but only got '${apiName}' - expected something in the format of 'controller/method'`;
+
+    let method = apiName.substr(separator + 1);
+    apiName = apiName.substr(0, separator);
+
+    return new Api(this.http, apiName).get<T>(method, params);
   }
   
 }
