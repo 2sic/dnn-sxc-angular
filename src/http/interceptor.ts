@@ -1,10 +1,12 @@
-import { ContextInfo } from '../context/context-info';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { Context } from "../context/context.service";
-import { HttpHeaders } from '@angular/common/http';
 import { take, mergeMap } from 'rxjs/operators';
+
+const appRoute = '/app/auto/';
+const appApi = 'api';
+const appApiRoute = appRoute + appApi + '/';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -21,9 +23,14 @@ export class Interceptor implements HttpInterceptor {
           url = ctx.sxc.resolveServiceUrl(req.url);
         else if(!["//", "http://", "https://", "/"].find((s) => url.toLowerCase().startsWith(s)))
           url = ctx.path + url;
+
+        // change to use api of an edition, if an edition was specified
+        // but only do this on api-routes, the others don't support editions
+        if(ctx.apiEdition)
+          url = url.replace(appApiRoute, appRoute + ctx.apiEdition + '/' + appApi + '/');
         
         if(ctx.appNameInPath)
-          url = url.replace('/app/auto/', `/app/${ctx.appNameInPath}/`);
+          url = url.replace(appRoute, `/app/${ctx.appNameInPath}/`);
 
         // Clone the request and update the url with 2sxc params.
         const newReq = req.clone({

@@ -40,7 +40,11 @@ export class Context {
     sxc$ = this.sxcSubject.asObservable();
     sxcController$: Observable<SxcController>;
     runtimeSettings$ = this.runtimeSettingsSubject.asObservable();
+
+    /** the edition can be null, but it can also have a value */
     edition$ = new BehaviorSubject<string>(null);
+
+    /** the apiEdition can be null, but it can also have a value */
     apiEdition$ = new BehaviorSubject<string>(null);
 
     all$ = combineLatest(
@@ -159,24 +163,32 @@ export class Context {
         this.afTokenSubject.next(settings.antiForgeryToken ? settings.antiForgeryToken : sf.getAntiForgeryValue());
 
         // Access to sxc must happen after initializing DNN sf - if settings.moduleId was missing,
-        // sxc has already been accessed. To circumvent this, we need to recreate the sxc.
-        // settings.sxc = settings.sxc.recreate(); <-- does not work
+        // sxc has already been accessed. To circumvent this, we need to re-attach the SF to sxc.
+        // Important: settings.sxc = settings.sxc.recreate(); <-- does not work
         settings.sxc.serviceRoot = sf.getServiceRoot("2sxc"); // <-- works
 
         // Provide sxc after sf has been initialized because it also depends on it
         this.sxcSubject.next(settings.sxc);
     }
 
+    /**
+     * Get context information like module-id from the app-root tag
+     * new in Dnn-Sxc-Angular 8
+     */
     private getContextFromAppTag(el: ElementRef) {
+        // 2019-09-29 2dm important now
         this.initFromAppTag(el, appTag.edition, this.edition$);
         this.initFromAppTag(el, appTag.apiEdition, this.apiEdition$);
+
+        // 2019-09-29 2dm important later
         this.initFromAppTag(el, appTag.antiForgeryToken, this.afTokenSubject);
         this.initFromAppTag(el, appTag.tabId, this.tidSubject);
         this.initFromAppTag(el, appTag.moduleId, this.midSubject);
         this.initFromAppTag(el, appTag.contentBlockId, this.cbIdSubject);
 
-        console.log('edition', this.edition$.value);
-        this.afTokenSubject.pipe(take(1), tap(x => console.log('aft', x))).subscribe();    
+        // Debugging - disable when working
+        // console.log('edition', this.edition$.value);
+        // this.afTokenSubject.pipe(take(1), tap(x => console.log('aft', x))).subscribe();    
 
     }
 
@@ -184,7 +196,8 @@ export class Context {
         el: ElementRef, 
         attribute: string, 
         target: Subject<T>) {
-        const value = el.nativeElement.getAttribute(attribute);
-        if(value) target.next(value);
+            // todo: after upgrading to NG8, probably use el.GetAttribute
+            const value = el.nativeElement.getAttribute(attribute);
+            if(value) target.next(value);
     }
 }
