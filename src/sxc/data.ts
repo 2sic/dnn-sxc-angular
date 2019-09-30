@@ -73,9 +73,9 @@ export class Data {
 
   /**
    * get an api object to then start api-calls
-   * usually you'll be better off using the observable stream api$, this is included primarily for consistency in the api
+   * usually you'll be better off using the quick observable stream api$, this is included primarily for consistency in the api
    * @param controller the api controller
-   * @returns an API object with a .get<T>()
+   * @returns an API object with a .get<T>() method
    */
   public api(controller: string): Api {
     return new Api(this.http, controller);

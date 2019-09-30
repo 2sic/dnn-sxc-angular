@@ -30,6 +30,7 @@ export class Content<T> {
     return this.http.get<T[]>(url);
   }
 
+  /** This method doesn't exist yet - maybe one day we'll enhance for creating data-items */
   post(): Observable<T> {
     throw new Error('not implemented yet');
   }

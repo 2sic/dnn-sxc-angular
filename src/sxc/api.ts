@@ -9,7 +9,7 @@ export class Api {
   ) {  }
 
   /**
-   * GET call a 2sxc api controller method
+   * GET a 2sxc api controller method
    */
   get<T>(method: string, params?: HttpParams): Observable<T> {
     const url = `${routeApi}/${this.controller}/${method}`;
