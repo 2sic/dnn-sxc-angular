@@ -66,7 +66,6 @@ export class Context {
             path: settings.path,
             addDnnHeaders: settings.addDnnHeaders,
             appNameInPath: settings.appNameInPath,
-            withCredentials: settings.withCredentials,
             edition: edition,
             apiEdition: apiEdition,
         });

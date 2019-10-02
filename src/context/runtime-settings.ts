@@ -17,7 +17,6 @@ export class RuntimeSettings implements ContextInfo {
     sxc: any;
     path: string = '/';
     appNameInPath: string = "";
-    withCredentials = false;
     edition: string = null;
     apiEdition: string = null;
 }
