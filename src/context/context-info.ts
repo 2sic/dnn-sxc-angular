@@ -8,26 +8,7 @@ import { SxcInstance } from '../interfaces/sxc-instance';
  * or with the DNN around it.
  */
 export class ContextInfo {
-  /**
-   * the DNN module id
-   */
-  moduleId: number;
-
-  /**
-   * the DNN tab id (internal page number)
-   */
-  tabId: number;
-
-  /**
-   * the 2sxc content block ID
-   */
-  contentBlockId: number;
-
-  /**
-   * the security / anti-forgery token for api-requests
-   */
-  antiForgeryToken: string;
-
+  
   /**
    * the helper sxc-object to communicate with the server
    */
@@ -36,19 +17,12 @@ export class ContextInfo {
   /**
    * If false, does not append any custom headers to DNN requests
    */
-  addDnnHeaders: boolean;
+  addHttpHeaders: boolean;
 
   /**
    * Replace app name in path; replaces /app/auto/
   */
   appNameInPath: string;
-
-  /**
-   * Overrides the base path for 2sxc requests (used to develop locally and send requests to a remote 2sxc installation)
-   * Requires CORS configuration on the target server
-   * e.g. http://example.com/app-dnn-sxc-angular-dev/DesktopModules/2sxc/API/
-   */
-  path: string;
 
   /**
    * the edition of the current app - if you are working with polymorph editions
