@@ -10,12 +10,11 @@
     "dsa-copy:dist": "cpx \"{,!(node_modules)/**/}*.*\" \"../app-dnn-sxc-angular-dev/node_modules/@2sic.com/dnn-sxc-angular\" -w",
     "dsa-copy:2dm": "cpx \"{,!(node_modules|dist)/**/}*.*\" \"../app-Directory/node_modules/@2sic.com/dnn-sxc-angular\" -w -v",
     "dsa-copy:template-ng8": "cpx \"dist/{,**/}*.*\" \"../app-template-angular8/ng/node_modules/@2sic.com/dnn-sxc-angular/dist\" -w -v",
-
     "dsa-test": "echo \"Error: no test specified\" && exit 1",
     "dsa-develop": "tsc -watch"
   },
   "dependencies": {
-    "@2sic.com/2sxc-typings": "^9.0.3"
+    "@2sic.com/2sxc-typings": "^10.24.4"
   },
   "peerDependencies": {
     "@angular/common": "^6.1.3",

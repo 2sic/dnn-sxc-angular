@@ -14,8 +14,7 @@ export class Interceptor implements HttpInterceptor {
     let url = req.url;
     let ctx = this.context.contextInfo;
     if (this.context.$2sxc) {
-      // Todo: fix typings
-      url = (<any>this.context.$2sxc).http.apiUrl(req.url);
+      url = this.context.$2sxc.http.apiUrl(req.url);
     }
 
     // change to use api of an edition, if an edition was specified
@@ -30,8 +29,7 @@ export class Interceptor implements HttpInterceptor {
 
     let headers = {};
     if(ctx.addHttpHeaders && this.context.contextInfo.sxc) {
-      // ToDo: Fix typings
-      headers = (<any>this.context.contextInfo.sxc).webApi.headers();
+      headers = this.context.contextInfo.sxc.webApi.headers();
       headers = this.convertAllPropertiesToString(headers);
     }
     
