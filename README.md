@@ -1,3 +1,9 @@
+# dnn-sxc-angular has moved
+This was the old dnn-sxc-angular project.
+
+We have now moved it to [2sxc.ui](https://github.com/2sic/2sxc-ui/tree/develop/projects/dnn-sxc-angular)
+
+
 # dnn-sxc-angular - Connecting Angular to DNN and/or 2sxc
 
 This is a connector for angular 8+ ([git](https://github.com/angular/angular) | [web](https://angular.io/)) for developers using
